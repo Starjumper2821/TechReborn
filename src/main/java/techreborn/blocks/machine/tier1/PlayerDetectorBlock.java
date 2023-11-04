@@ -51,7 +51,7 @@ import reborncore.api.blockentity.IMachineGuiHandler;
 import reborncore.common.blocks.BlockMachineBase;
 import reborncore.common.util.ChatUtils;
 import reborncore.common.util.StringUtils;
-import techreborn.blockentity.machine.tier1.PlayerDectectorBlockEntity;
+import techreborn.blockentity.machine.tier1.PlayerDetectorBlockEntity;
 import techreborn.utils.MessageIDs;
 
 public class PlayerDetectorBlock extends BlockMachineBase {
@@ -66,15 +66,15 @@ public class PlayerDetectorBlock extends BlockMachineBase {
 	// BlockMachineBase
 	@Override
 	public BlockEntity createBlockEntity(BlockView worldIn) {
-		return new PlayerDectectorBlockEntity();
+		return new PlayerDetectorBlockEntity();
 	}
 
 	@Override
 	public void onPlaced(World worldIn, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
 		super.onPlaced(worldIn, pos, state, placer, stack);
 		BlockEntity blockEntity = worldIn.getBlockEntity(pos);
-		if (blockEntity instanceof PlayerDectectorBlockEntity) {
-			((PlayerDectectorBlockEntity) blockEntity).owenerUdid = placer.getUuid().toString();
+		if (blockEntity instanceof PlayerDetectorBlockEntity) {
+			((PlayerDetectorBlockEntity) blockEntity).owenerUdid = placer.getUuid().toString();
 		}
 	}
 
@@ -157,8 +157,8 @@ public class PlayerDetectorBlock extends BlockMachineBase {
 	@Override
 	public int getWeakRedstonePower(BlockState blockState, BlockView blockAccess, BlockPos pos, Direction side) {
 		BlockEntity entity = blockAccess.getBlockEntity(pos);
-		if (entity instanceof PlayerDectectorBlockEntity) {
-			return ((PlayerDectectorBlockEntity) entity).isProvidingPower() ? 15 : 0;
+		if (entity instanceof PlayerDetectorBlockEntity) {
+			return ((PlayerDetectorBlockEntity) entity).isProvidingPower() ? 15 : 0;
 		}
 		return 0;
 	}
@@ -167,8 +167,8 @@ public class PlayerDetectorBlock extends BlockMachineBase {
 	@Override
 	public int getStrongRedstonePower(BlockState blockState, BlockView blockAccess, BlockPos pos, Direction side) {
 		BlockEntity entity = blockAccess.getBlockEntity(pos);
-		if (entity instanceof PlayerDectectorBlockEntity) {
-			return ((PlayerDectectorBlockEntity) entity).isProvidingPower() ? 15 : 0;
+		if (entity instanceof PlayerDetectorBlockEntity) {
+			return ((PlayerDetectorBlockEntity) entity).isProvidingPower() ? 15 : 0;
 		}
 		return 0;
 	}

@@ -80,7 +80,7 @@ public class JackhammerItem extends PickaxeItem implements EnergyHolder, ItemDur
 	Fabric API doesn't allow to have mining speed less then the one from vanilla ToolMaterials
 	@Override
 	public float getMiningSpeedMultiplier(Tag<Item> tag, BlockState state, ItemStack stack, LivingEntity user) {
-		if (tag.equals(FabricToolTags.PICKAXES) && stack.getItem().isEffectiveOn(state)) {
+		if (tag.equals(FabricToolTags.PICKAXES) && stack.getItem().isSuitableFor(state)) {
 			if (Energy.of(stack).getEnergy() >= cost) {
 				return miningSpeed;
 			}

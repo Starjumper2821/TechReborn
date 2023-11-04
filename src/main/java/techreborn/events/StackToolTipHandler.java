@@ -35,7 +35,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
 import net.minecraft.util.registry.Registry;
 import reborncore.common.BaseBlockEntityProvider;
-import techreborn.TechReborn;
 import techreborn.init.TRContent;
 import techreborn.items.UpgradeItem;
 import techreborn.utils.ToolTipAssistUtils;

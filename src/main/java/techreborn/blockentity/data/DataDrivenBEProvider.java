@@ -37,6 +37,7 @@ import net.minecraft.util.registry.Registry;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.Validate;
 import org.apache.commons.lang3.text.WordUtils;
+import org.jetbrains.annotations.Nullable;
 import reborncore.client.screen.BuiltScreenHandlerProvider;
 import reborncore.client.screen.builder.BlockEntityScreenHandlerBuilder;
 import reborncore.client.screen.builder.BuiltScreenHandler;
@@ -48,7 +49,6 @@ import reborncore.common.util.serialization.SerializationUtil;
 import techreborn.blockentity.machine.GenericMachineBlockEntity;
 import techreborn.init.ModRecipes;
 
-import org.jetbrains.annotations.Nullable;
 import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import java.util.List;

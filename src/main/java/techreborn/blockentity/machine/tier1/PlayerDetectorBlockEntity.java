@@ -27,7 +27,7 @@ package techreborn.blockentity.machine.tier1;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import reborncore.api.IToolDrop;
 import reborncore.common.powerSystem.PowerAcceptorBlockEntity;
 import reborncore.common.util.WorldUtils;
@@ -38,13 +38,13 @@ import techreborn.config.TechRebornConfig;
 import techreborn.init.TRBlockEntities;
 import techreborn.init.TRContent;
 
-public class PlayerDectectorBlockEntity extends PowerAcceptorBlockEntity implements IToolDrop {
+public class PlayerDetectorBlockEntity extends PowerAcceptorBlockEntity implements IToolDrop {
 
 
 	public String owenerUdid = "";
 	boolean redstone = false;
 
-	public PlayerDectectorBlockEntity() {
+	public PlayerDetectorBlockEntity() {
 		super(TRBlockEntities.PLAYER_DETECTOR);
 	}
 
@@ -117,14 +117,14 @@ public class PlayerDectectorBlockEntity extends PowerAcceptorBlockEntity impleme
 	}
 
 	@Override
-	public void fromTag(BlockState blockState, CompoundTag tag) {
+	public void fromTag(BlockState blockState, NbtCompound tag) {
 		super.fromTag(blockState, tag);
 		owenerUdid = tag.getString("ownerID");
 	}
 
 	@Override
-	public CompoundTag toTag(CompoundTag tag) {
-		super.toTag(tag);
+	public NbtCompound writeNbt(NbtCompound tag) {
+		super.writeNbt(tag);
 		tag.putString("ownerID", owenerUdid);
 		return tag;
 	}

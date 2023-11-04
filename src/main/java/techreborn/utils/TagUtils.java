@@ -29,7 +29,6 @@ import net.minecraft.fluid.Fluid;
 import net.minecraft.item.Item;
 import net.minecraft.tag.Tag;
 import net.minecraft.tag.TagGroup;
-import net.minecraft.tag.TagGroupLoader;
 import net.minecraft.world.World;
 
 public class TagUtils {

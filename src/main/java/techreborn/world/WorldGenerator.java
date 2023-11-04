@@ -25,7 +25,6 @@
 package techreborn.world;
 
 import com.mojang.serialization.Lifecycle;
-
 import it.unimi.dsi.fastutil.ints.IntArrayList;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;

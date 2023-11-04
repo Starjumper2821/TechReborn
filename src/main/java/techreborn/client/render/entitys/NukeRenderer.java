@@ -30,13 +30,12 @@ import net.minecraft.client.render.entity.EntityRenderer;
 import net.minecraft.client.render.entity.TntMinecartEntityRenderer;
 import net.minecraft.client.texture.SpriteAtlasTexture;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.client.util.math.Vector3f;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3f;
+import org.jetbrains.annotations.Nullable;
 import techreborn.entities.EntityNukePrimed;
 import techreborn.init.TRContent;
-
-import org.jetbrains.annotations.Nullable;
 
 /**
  * Created by Mark on 13/03/2016.
@@ -67,7 +66,7 @@ public class NukeRenderer extends EntityRenderer<EntityNukePrimed> {
 			matrixStack.scale(j, j, j);
 		}
 
-		matrixStack.multiply(Vector3f.POSITIVE_Y.getDegreesQuaternion(-90.0F));
+		matrixStack.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(-90.0F));
 		matrixStack.translate(-0.5D, -0.5D, 0.5D);
 		TntMinecartEntityRenderer.renderFlashingBlock(TRContent.NUKE.getDefaultState(), matrixStack, vertexConsumerProvider, i, entity.getFuseTimer() / 5 % 2 == 0);
 		matrixStack.pop();

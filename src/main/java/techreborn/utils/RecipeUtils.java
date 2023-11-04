@@ -28,9 +28,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.Recipe;
 import net.minecraft.recipe.RecipeType;
 import net.minecraft.world.World;
-import techreborn.items.DynamicCellItem;
 
-import org.jetbrains.annotations.NotNull;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -43,7 +41,7 @@ public class RecipeUtils {
 	}
 
 	public static boolean matchesSingleInput(Recipe<?> recipe, ItemStack input) {
-		return recipe.getPreviewInputs().size() == 1 && recipe.getPreviewInputs().get(0).test(input);
+		return recipe.getIngredients().size() == 1 && recipe.getIngredients().get(0).test(input);
 	}
 
 	/**

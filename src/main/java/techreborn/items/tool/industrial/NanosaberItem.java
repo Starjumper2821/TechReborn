@@ -36,13 +36,14 @@ import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.*;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
 import reborncore.api.items.ItemStackModifiers;
 import reborncore.common.powerSystem.PowerSystem;
 import reborncore.common.util.ItemDurabilityExtensions;
@@ -56,7 +57,6 @@ import techreborn.config.TechRebornConfig;
 import techreborn.init.TRContent;
 import techreborn.utils.MessageIDs;
 
-import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 public class NanosaberItem extends SwordItem implements EnergyHolder, ItemDurabilityExtensions, ItemStackModifiers {
@@ -114,16 +114,16 @@ public class NanosaberItem extends SwordItem implements EnergyHolder, ItemDurabi
 			return;
 		}
 		ItemStack inactiveUncharged = new ItemStack(this);
-		inactiveUncharged.setTag(new CompoundTag());
+		inactiveUncharged.setTag(new NbtCompound());
 		inactiveUncharged.getOrCreateTag().putBoolean("isActive", false);
 
 		ItemStack inactiveCharged = new ItemStack(TRContent.NANOSABER);
-		inactiveCharged.setTag(new CompoundTag());
+		inactiveCharged.setTag(new NbtCompound());
 		inactiveCharged.getOrCreateTag().putBoolean("isActive", false);
 		Energy.of(inactiveCharged).set(Energy.of(inactiveCharged).getMaxStored());
 
 		ItemStack activeCharged = new ItemStack(TRContent.NANOSABER);
-		activeCharged.setTag(new CompoundTag());
+		activeCharged.setTag(new NbtCompound());
 		activeCharged.getOrCreateTag().putBoolean("isActive", true);
 		Energy.of(activeCharged).set(Energy.of(activeCharged).getMaxStored());
 
