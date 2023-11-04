@@ -52,6 +52,7 @@ import reborncore.common.blocks.BlockMachineBase;
 import reborncore.common.util.ChatUtils;
 import reborncore.common.util.StringUtils;
 import techreborn.blockentity.machine.tier1.PlayerDetectorBlockEntity;
+import techreborn.client.GuiType;
 import techreborn.utils.MessageIDs;
 
 public class PlayerDetectorBlock extends BlockMachineBase {
@@ -74,7 +75,7 @@ public class PlayerDetectorBlock extends BlockMachineBase {
 		super.onPlaced(worldIn, pos, state, placer, stack);
 		BlockEntity blockEntity = worldIn.getBlockEntity(pos);
 		if (blockEntity instanceof PlayerDetectorBlockEntity) {
-			((PlayerDetectorBlockEntity) blockEntity).owenerUdid = placer.getUuid().toString();
+			((PlayerDetectorBlockEntity) blockEntity).ownerUdid = placer.getUuid().toString();
 		}
 	}
 
@@ -124,21 +125,27 @@ public class PlayerDetectorBlock extends BlockMachineBase {
 
 		if (worldIn.isClient) {
 			ChatUtils.sendNoSpamMessages(MessageIDs.playerDetectorID,
-					new TranslatableText("techreborn.message.detects")
-							.formatted(Formatting.GRAY)
-							.append(" ")
-							.append(
-									new LiteralText(StringUtils.toFirstCapital(newType.asString()))
-											.formatted(color)
-							)
+				new TranslatableText("techreborn.message.detects")
+					.formatted(Formatting.GRAY)
+					.append(" ")
+					.append(
+						new LiteralText(StringUtils.toFirstCapital(newType.asString()))
+							.formatted(color)
+					)
 			);
 		}
+
+		if (getGui() != null && !playerIn.isSneaking()) {
+			getGui().open(playerIn, pos, worldIn);
+			return ActionResult.SUCCESS;
+		}
+
 		return ActionResult.SUCCESS;
 	}
 
 	@Override
 	public IMachineGuiHandler getGui() {
-		return null;
+		return GuiType.PLAYER_DETECTOR;
 	}
 
 	@Override

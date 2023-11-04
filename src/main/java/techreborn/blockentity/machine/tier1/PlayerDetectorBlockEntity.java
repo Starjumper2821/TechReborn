@@ -28,7 +28,11 @@ import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.util.math.MathHelper;
 import reborncore.api.IToolDrop;
+import reborncore.client.screen.BuiltScreenHandlerProvider;
+import reborncore.client.screen.builder.BuiltScreenHandler;
+import reborncore.client.screen.builder.ScreenHandlerBuilder;
 import reborncore.common.powerSystem.PowerAcceptorBlockEntity;
 import reborncore.common.util.WorldUtils;
 import team.reborn.energy.EnergySide;
@@ -38,18 +42,42 @@ import techreborn.config.TechRebornConfig;
 import techreborn.init.TRBlockEntities;
 import techreborn.init.TRContent;
 
-public class PlayerDetectorBlockEntity extends PowerAcceptorBlockEntity implements IToolDrop {
+public class PlayerDetectorBlockEntity extends PowerAcceptorBlockEntity implements IToolDrop, BuiltScreenHandlerProvider {
 
+	final String OWNER_KEY = "ownerID";
+	final String RADIUS_KEY = "radius";
+	final String INVERTED_KEY = "inverted";
 
-	public String owenerUdid = "";
+	public String ownerUdid = "";
 	boolean redstone = false;
+	int radius = 16;
+	boolean inverted = false;
 
 	public PlayerDetectorBlockEntity() {
 		super(TRBlockEntities.PLAYER_DETECTOR);
 	}
 
 	public boolean isProvidingPower() {
-		return redstone;
+		if (inverted) {
+			return !redstone;
+		} else {
+			return redstone;
+		}
+	}
+
+	public void clientChangedRadius(int amount) {
+		radius += amount;
+
+		if (radius > TechRebornConfig.playerDetectorMaxRadius) {
+			radius = TechRebornConfig.playerDetectorMaxRadius;
+		}
+		if (radius <= 1) {
+			radius = 1;
+		}
+	}
+
+	public void clientInvertedRedstone() {
+		inverted = !inverted;
 	}
 
 	// PowerAcceptorBlockEntity
@@ -57,11 +85,7 @@ public class PlayerDetectorBlockEntity extends PowerAcceptorBlockEntity implemen
 	public void tick() {
 		super.tick();
 
-		if (world == null) {
-			return;
-		}
-
-		if (world.isClient) {
+		if (world == null || world.isClient) {
 			return;
 		}
 
@@ -73,16 +97,16 @@ public class PlayerDetectorBlockEntity extends PowerAcceptorBlockEntity implemen
 		redstone = false;
 		if (getStored(EnergySide.UNKNOWN) > TechRebornConfig.playerDetectorEuPerTick) {
 			for (PlayerEntity player : world.getPlayers()) {
-				if (player.distanceTo(player) <= 256.0D) {
+				if (MathHelper.sqrt((float) player.squaredDistanceTo(pos.getX(), pos.getY(), pos.getZ())) <= (float) radius) {
 					PlayerDetectorType type = world.getBlockState(pos).get(PlayerDetectorBlock.TYPE);
 					if (type == PlayerDetectorType.ALL) {// ALL
 						redstone = true;
 					} else if (type == PlayerDetectorType.OTHERS) {// Others
-						if (!owenerUdid.isEmpty() && !owenerUdid.equals(player.getUuid().toString())) {
+						if (!ownerUdid.isEmpty() && !ownerUdid.equals(player.getUuid().toString())) {
 							redstone = true;
 						}
 					} else {// You
-						if (!owenerUdid.isEmpty() && owenerUdid.equals(player.getUuid().toString())) {
+						if (!ownerUdid.isEmpty() && ownerUdid.equals(player.getUuid().toString())) {
 							redstone = true;
 						}
 					}
@@ -119,19 +143,63 @@ public class PlayerDetectorBlockEntity extends PowerAcceptorBlockEntity implemen
 	@Override
 	public void fromTag(BlockState blockState, NbtCompound tag) {
 		super.fromTag(blockState, tag);
-		owenerUdid = tag.getString("ownerID");
+		ownerUdid = tag.getString(OWNER_KEY);
+		radius = tag.getInt(RADIUS_KEY);
+		inverted = tag.getBoolean(INVERTED_KEY);
 	}
 
 	@Override
 	public NbtCompound writeNbt(NbtCompound tag) {
 		super.writeNbt(tag);
-		tag.putString("ownerID", owenerUdid);
+		tag.putString(OWNER_KEY, ownerUdid);
+		tag.putInt(RADIUS_KEY, radius);
+		tag.putBoolean(INVERTED_KEY, inverted);
 		return tag;
+	}
+
+	// MachineBaseBlockEntity
+	@Override
+	public boolean hasSlotConfig() {
+		return false;
+	}
+
+	@Override
+	public boolean canBeUpgraded() {
+		return false;
 	}
 
 	// IToolDrop
 	@Override
 	public ItemStack getToolDrop(PlayerEntity p0) {
 		return TRContent.Machine.PLAYER_DETECTOR.getStack();
+	}
+
+	// BuiltScreenHandlerProvider
+	@Override
+	public BuiltScreenHandler createScreenHandler(int syncID, PlayerEntity player) {
+		return new ScreenHandlerBuilder("player_detector")
+			.player(player.inventory)
+			.inventory().hotbar().addInventory()
+			.blockEntity(this)
+			.syncEnergyValue()
+			.sync(this::getCurrentRadius, this::setCurrentRadius)
+			.sync(this::isInverted, this::setInverted)
+			.addInventory().create(this, syncID);
+	}
+
+	public int getCurrentRadius() {
+		return radius;
+	}
+
+	public void setCurrentRadius(int radius) {
+		this.radius = radius;
+	}
+
+	public boolean isInverted() {
+		return inverted;
+	}
+
+	public void setInverted(boolean invert) {
+		inverted = invert;
 	}
 }

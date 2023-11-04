@@ -333,8 +333,11 @@ public class TechRebornConfig {
 	@Config(config = "machines", category = "player_detector", key = "PlayerDetectorMaxEnergy", comment = "Player Detector Max Energy (Value in EU)")
 	public static int playerDetectorMaxEnergy = 10000;
 
-	@Config(config = "machines", category = "player_detector", key = "PlayerDetectorEUPerSecond", comment = "Player Detector Energy Consumption per second (Value in EU)")
-	public static int playerDetectorEuPerTick = 10;
+	@Config(config = "machines", category = "player_detector", key = "PlayerDetectorEnergyUsage", comment = "Player Detector Energy Consumption per second")
+	public static int playerDetectorEuPerTick = 1;
+
+	@Config(config = "machines", category = "player_detector", key = "PlayerDetectorMaxRadius", comment = "Player Detector maximum detection radius")
+	public static int playerDetectorMaxRadius = 128;
 
 	@Config(config = "machines", category = "Distillation_tower", key = "DistillationTowerMaxInput", comment = "Distillation Tower Max Input (Value in EU)")
 	public static int distillationTowerMaxInput = 128;
