@@ -27,7 +27,7 @@ package techreborn.blockentity.machine.tier1;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.math.MathHelper;
 import reborncore.api.IToolDrop;
 import reborncore.client.screen.BuiltScreenHandlerProvider;
@@ -129,15 +129,15 @@ public class PlayerDetectorBlockEntity extends PowerAcceptorBlockEntity implemen
 	}
 
 	@Override
-	public void fromTag(BlockState blockState, CompoundTag tag) {
-		super.fromTag(blockState, tag);
+	public void fromTag(BlockState blockState, NbtCompound tag) {
+		super.readNbt(blockState, tag);
 		ownerUdid = tag.getString("ownerID");
 		radius = tag.getInt("radius");
 	}
 
 	@Override
-	public CompoundTag toTag(CompoundTag tag) {
-		super.toTag(tag);
+	public NbtCompound toTag(NbtCompound tag) {
+		super.writeNbt(tag);
 		tag.putString("ownerID", ownerUdid);
 		tag.putInt("radius", radius);
 		return tag;

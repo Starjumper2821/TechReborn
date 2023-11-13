@@ -30,7 +30,7 @@ import net.minecraft.block.entity.AbstractFurnaceBlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import reborncore.api.IToolDrop;
 import reborncore.api.blockentity.InventoryProvider;
 import reborncore.common.blockentity.MachineBaseBlockEntity;
@@ -132,20 +132,20 @@ public abstract class AbstractIronMachineBlockEntity extends MachineBaseBlockEnt
 
 	// MachineBaseBlockEntity
 	@Override
-	public void fromTag(BlockState blockState, CompoundTag compoundTag) {
-		super.fromTag(blockState, compoundTag);
-		burnTime = compoundTag.getInt("BurnTime");
-		totalBurnTime = compoundTag.getInt("TotalBurnTime");
-		progress = compoundTag.getInt("Progress");
+	public void fromTag(BlockState blockState, NbtCompound nbtCompound) {
+		super.readNbt(blockState, nbtCompound);
+		burnTime = nbtCompound.getInt("BurnTime");
+		totalBurnTime = nbtCompound.getInt("TotalBurnTime");
+		progress = nbtCompound.getInt("Progress");
 	}
 
 	@Override
-	public CompoundTag toTag(CompoundTag compoundTag) {
-		super.toTag(compoundTag);
-		compoundTag.putInt("BurnTime", burnTime);
-		compoundTag.putInt("TotalBurnTime", totalBurnTime);
-		compoundTag.putInt("Progress", progress);
-		return compoundTag;
+	public NbtCompound toTag(NbtCompound nbtCompound) {
+		super.writeNbt(nbtCompound);
+		nbtCompound.putInt("BurnTime", burnTime);
+		nbtCompound.putInt("TotalBurnTime", totalBurnTime);
+		nbtCompound.putInt("Progress", progress);
+		return nbtCompound;
 	}
 
 	@Override
