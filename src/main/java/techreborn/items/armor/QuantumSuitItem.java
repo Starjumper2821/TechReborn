@@ -40,8 +40,8 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.collection.DefaultedList;
+import reborncore.api.items.ArmorBlockEntityTicker;
 import reborncore.api.items.ArmorRemoveHandler;
-import reborncore.api.items.ArmorTickable;
 import reborncore.api.items.ItemStackModifiers;
 import reborncore.common.powerSystem.PowerSystem;
 import reborncore.common.util.ItemUtils;
@@ -52,7 +52,7 @@ import techreborn.TechReborn;
 import techreborn.config.TechRebornConfig;
 import techreborn.utils.InitUtils;
 
-public class QuantumSuitItem extends TRArmourItem implements ItemStackModifiers, ArmorTickable, ArmorRemoveHandler, EnergyHolder {
+public class QuantumSuitItem extends TRArmourItem implements ItemStackModifiers, ArmorBlockEntityTicker, ArmorRemoveHandler, EnergyHolder {
 
 	public final double flyCost = TechRebornConfig.quantumSuitFlyingCost;
 	public final double swimCost = TechRebornConfig.quantumSuitSwimmingCost;

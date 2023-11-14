@@ -30,7 +30,6 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import reborncore.common.fluid.FluidValue;
 
-import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.Objects;
 
@@ -79,11 +78,7 @@ public enum ObjectBufferUtils {
 
 	COMPOUND_TAG(NbtCompound.class, (value, buffer) -> {
 		buffer.writeNbt(value);
-	}, PacketByteBuf::readNbt),
-
-	BIG_INT(BigInteger.class, (pos, buffer) -> {
-		buffer.writeBigInt(pos);
-	}, ExtendedPacketBuffer::readBigInt);
+	}, PacketByteBuf::readNbt);
 
 	Class clazz;
 	ObjectWriter writer;

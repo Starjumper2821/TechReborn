@@ -85,7 +85,7 @@ public class StorageUnitBaseBlockEntity extends MachineBaseBlockEntity implement
 	private void configureEntity(TRContent.StorageUnit type) {
 
 		// Set capacity to local config unless overridden by server
-		if(serverCapacity == -1){
+		if (serverCapacity == -1) {
 			this.maxCapacity = type.capacity;
 		}
 
@@ -423,9 +423,9 @@ public class StorageUnitBaseBlockEntity extends MachineBaseBlockEntity implement
 		if (isReal || hasData) {
 			if (!this.isEmpty()) {
 				info.add(
-						new LiteralText(String.valueOf(this.getCurrentCapacity()))
-								.append(new TranslatableText("techreborn.tooltip.unit.divider"))
-								.append(this.getStoredStack().getName())
+					new LiteralText(String.valueOf(this.getCurrentCapacity()))
+						.append(new TranslatableText("techreborn.tooltip.unit.divider"))
+						.append(this.getStoredStack().getName())
 				);
 			} else {
 				info.add(new TranslatableText("techreborn.tooltip.unit.empty"));
@@ -433,19 +433,19 @@ public class StorageUnitBaseBlockEntity extends MachineBaseBlockEntity implement
 		}
 
 		info.add(
-				new TranslatableText("techreborn.tooltip.unit.capacity")
-						.formatted(Formatting.GRAY)
-						.append(
-								new LiteralText(String.valueOf(this.getMaxCapacity()))
-										.formatted(Formatting.GOLD)
-										.append(" ")
-										.append(I18n.translate("techreborn.tooltip.unit.items"))
-										.append(" (")
-										.append(String.valueOf(this.getMaxCapacity() / 64))
-										.append(" ")
-										.append(I18n.translate("techreborn.tooltip.unit.stacks"))
-										.append(")")
-						)
+			new TranslatableText("techreborn.tooltip.unit.capacity")
+				.formatted(Formatting.GRAY)
+				.append(
+					new LiteralText(String.valueOf(this.getMaxCapacity()))
+						.formatted(Formatting.GOLD)
+						.append(" ")
+						.append(I18n.translate("techreborn.tooltip.unit.items"))
+						.append(" (")
+						.append(String.valueOf(this.getMaxCapacity() / 64))
+						.append(" ")
+						.append(I18n.translate("techreborn.tooltip.unit.stacks"))
+						.append(")")
+				)
 		);
 	}
 
@@ -453,14 +453,14 @@ public class StorageUnitBaseBlockEntity extends MachineBaseBlockEntity implement
 	@Override
 	public BuiltScreenHandler createScreenHandler(int syncID, final PlayerEntity playerEntity) {
 		return new ScreenHandlerBuilder("chest").player(playerEntity.inventory).inventory().hotbar().addInventory()
-				.blockEntity(this)
-				.slot(INPUT_SLOT, 100, 53)
-				.outputSlot(OUTPUT_SLOT, 140, 53)
-				.sync(this::isLockedInt, this::setLockedInt)
-				.sync(this::getStoredStackNBT, this::setStoredStackFromNBT)
-				.sync(this::getStoredAmount, this::setStoredAmount)
-				.sync(this::getMaxCapacity, this::setMaxCapacity)
-				.addInventory().create(this, syncID);
+			.blockEntity(this)
+			.slot(INPUT_SLOT, 100, 53)
+			.outputSlot(OUTPUT_SLOT, 140, 53)
+			.sync(this::isLockedInt, this::setLockedInt)
+			.sync(this::getStoredStackNBT, this::setStoredStackFromNBT)
+			.sync(this::getStoredAmount, this::setStoredAmount)
+			.sync(this::getMaxCapacity, this::setMaxCapacity)
+			.addInventory().create(this, syncID);
 
 		// Note that inventory is synced, and it gets the stack from that
 	}

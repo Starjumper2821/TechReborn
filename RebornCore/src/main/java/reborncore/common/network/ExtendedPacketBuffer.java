@@ -28,16 +28,10 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.nbt.NbtOps;
-import net.minecraft.nbt.NbtElement;
 import net.minecraft.network.PacketByteBuf;
-
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.math.BigInteger;
 
 public class ExtendedPacketBuffer extends PacketByteBuf {
 	public ExtendedPacketBuffer(ByteBuf wrapped) {
@@ -50,26 +44,6 @@ public class ExtendedPacketBuffer extends PacketByteBuf {
 
 	protected Object readObject() {
 		return ObjectBufferUtils.readObject(this);
-	}
-
-	public void writeBigInt(BigInteger bigInteger) {
-		try {
-			ByteArrayOutputStream baos = new ByteArrayOutputStream();
-			ObjectOutputStream outputStream = new ObjectOutputStream(baos);
-			outputStream.writeObject(bigInteger);
-			writeByteArray(baos.toByteArray());
-		} catch (Exception e) {
-			throw new RuntimeException("Failed to write big int");
-		}
-	}
-
-	public BigInteger readBigInt() {
-		try {
-			ObjectInputStream inputStream = new ObjectInputStream(new ByteArrayInputStream(readByteArray()));
-			return (BigInteger) inputStream.readObject();
-		} catch (Exception e) {
-			throw new RuntimeException("Failed to read big int");
-		}
 	}
 
 	// Supports reading and writing list codec's

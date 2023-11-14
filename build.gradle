@@ -56,7 +56,6 @@ configurations {
 }
 
 def ENV = System.getenv()
-version = project.mod_version + (ENV.GITHUB_ACTIONS ? "" : "+local")
 
 license {
     header file('HEADER')
@@ -68,7 +67,10 @@ group = 'TechReborn'
 
 allprojects {
 
+    version = project.mod_version + (ENV.GITHUB_ACTIONS ? "" : "+local")
+
     apply plugin: "fabric-loom"
+    apply plugin: "maven-publish"
 
     sourceCompatibility = JavaVersion.VERSION_16
     targetCompatibility = JavaVersion.VERSION_16
@@ -86,7 +88,7 @@ allprojects {
         //Fabric api
         modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fapi_version}"
 
-        modApi 'teamreborn:energy:0.1.1'
+        include(modApi('teamreborn:energy:0.1.1'))
     }
 
     processResources {
@@ -110,7 +112,7 @@ allprojects {
         publications {
             maven(MavenPublication) {
                 groupId project.name
-                artifactId project.archivesBaseName
+                artifactId project.archivesBaseName + "-" + getBranch()
                 version project.version
 
                 artifact(remapJar) {
@@ -151,7 +153,7 @@ dependencies {
     api project(":RebornCore")
     include project(":RebornCore")
 
-    optionalDependency "me.shedaniel:RoughlyEnoughItems:5.8.9"
+    optionalDependency "me.shedaniel:RoughlyEnoughItems:5.12.248"
     disabledOptionalDependency ('com.github.emilyploszaj:trinkets:2.6.7')
     optionalDependency "com.github.dexman545:autoswitch-api:-SNAPSHOT"
 }

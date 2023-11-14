@@ -24,6 +24,9 @@
 
 package reborncore.common.blocks;
 
+import net.fabricmc.fabric.api.transfer.v1.item.InventoryStorage;
+import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
+import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.InventoryProvider;
@@ -51,7 +54,6 @@ import reborncore.api.ToolManager;
 import reborncore.api.blockentity.IMachineGuiHandler;
 import reborncore.api.blockentity.IUpgrade;
 import reborncore.api.blockentity.IUpgradeable;
-import reborncore.api.items.InventoryUtils;
 import reborncore.common.BaseBlockEntityProvider;
 import reborncore.common.blockentity.MachineBaseBlockEntity;
 import reborncore.common.fluid.FluidUtil;
@@ -79,7 +81,7 @@ public abstract class BlockMachineBase extends BaseBlockEntityProvider implement
 		this.hasCustomStates = hasCustomStates;
 		if (!hasCustomStates) {
 			this.setDefaultState(
-					this.getStateManager().getDefaultState().with(FACING, Direction.NORTH).with(ACTIVE, false));
+				this.getStateManager().getDefaultState().with(FACING, Direction.NORTH).with(ACTIVE, false));
 		}
 		BlockWrenchEventHandler.wrenableBlocks.add(this);
 	}
@@ -171,14 +173,14 @@ public abstract class BlockMachineBase extends BaseBlockEntityProvider implement
 	 *  Right-click should open GUI for all non-wrench items
 	 *  Shift-Right-click should apply special action, like fill\drain bucket, install behavior, etc.
 	 */
-	@SuppressWarnings("deprecation")
+	@SuppressWarnings({"deprecation", "UnstableApiUsage"})
 	@Override
 	public ActionResult onUse(BlockState state, World worldIn, BlockPos pos, PlayerEntity playerIn, Hand hand, BlockHitResult hitResult) {
 
 		ItemStack stack = playerIn.getStackInHand(hand);
 		BlockEntity blockEntity = worldIn.getBlockEntity(pos);
 
-		// We extended BlockTileBase. Thus we should always have blockEntity entity. I hope.
+		// We extended BlockTileBase. Thus, we should always have blockEntity entity. I hope.
 		if (blockEntity == null) {
 			return ActionResult.PASS;
 		}
@@ -195,14 +197,15 @@ public abstract class BlockMachineBase extends BaseBlockEntityProvider implement
 				if (WrenchUtils.handleWrench(stack, worldIn, pos, playerIn, hitResult.getSide())) {
 					return ActionResult.SUCCESS;
 				}
-			} else if (stack.getItem() instanceof IUpgrade && blockEntity instanceof IUpgradeable) {
-				IUpgradeable upgradeableEntity = (IUpgradeable) blockEntity;
-				if (upgradeableEntity.canBeUpgraded()) {
-					if (InventoryUtils.insertItemStacked(upgradeableEntity.getUpgradeInvetory(), stack,
-							true).getCount() > 0) {
-						stack = InventoryUtils.insertItemStacked(upgradeableEntity.getUpgradeInvetory(), stack, false);
-						playerIn.setStackInHand(Hand.MAIN_HAND, stack);
-						return ActionResult.SUCCESS;
+			} else if (stack.getItem() instanceof IUpgrade && blockEntity instanceof IUpgradeable upgradeableEntity) {
+				try(Transaction transaction = Transaction.openOuter()) {
+					if (upgradeableEntity.canBeUpgraded()) {
+						int inserted = (int) InventoryStorage.of(upgradeableEntity.getUpgradeInvetory(), null)
+							.insert(ItemVariant.of(stack), stack.getCount(), transaction);
+						if (inserted > 0) {
+							stack.decrement(inserted);
+							return ActionResult.success(worldIn.isClient());
+						}
 					}
 				}
 			}
