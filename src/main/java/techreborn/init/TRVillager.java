@@ -15,7 +15,6 @@ import techreborn.TechReborn;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class TRVillager {
 
@@ -91,10 +90,10 @@ public class TRVillager {
 		extraCommonTrades.add(TradeUtils.createSell(TRContent.RUBBER_SAPLING, 5, 1, 8, 1));
 		// registration of the trades, no changes necessary for new trades
 		TradeOfferHelper.registerWanderingTraderOffers(1, allTradesList -> allTradesList.addAll(
-			extraCommonTrades.stream().map(TradeUtils::asFactory).collect(Collectors.toList())
+			extraCommonTrades.stream().map(TradeUtils::asFactory).toList()
 		));
 		TradeOfferHelper.registerWanderingTraderOffers(2, allTradesList -> allTradesList.addAll(
-			extraRareTrades.stream().map(TradeUtils::asFactory).collect(Collectors.toList())
+			extraRareTrades.stream().map(TradeUtils::asFactory).toList()
 		));
 	}
 }

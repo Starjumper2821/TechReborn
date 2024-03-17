@@ -26,15 +26,6 @@ package reborncore.common.util;
 
 public class ExceptionUtils {
 
-	public static void tryAndThrow(Runnable runnable, String message) throws RuntimeException {
-		try {
-			runnable.run();
-		} catch (Throwable t) {
-			t.printStackTrace();
-			throw new RuntimeException(message, t);
-		}
-	}
-
 	public static void requireNonNull(Object obj, String name) {
 		if (obj == null)
 			throw new NullPointerException(name + " cannot be null!");
@@ -47,13 +38,4 @@ public class ExceptionUtils {
 			if (obj == null)
 				throw new NullPointerException("No entry of " + name + " can be null!");
 	}
-
-	public static void requireNonNullEntries(Iterable<?> iterable, String name) {
-		if (iterable == null)
-			return;
-		for (Object obj : iterable)
-			if (obj == null)
-				throw new NullPointerException("No entry of " + name + " can be null!");
-	}
-
 }

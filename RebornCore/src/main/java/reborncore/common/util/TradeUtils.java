@@ -3,7 +3,6 @@ package reborncore.common.util;
 import it.unimi.dsi.fastutil.ints.Int2ObjectArrayMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import net.minecraft.entity.Entity;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -15,7 +14,6 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
 import java.util.Random;
-import java.util.stream.Collectors;
 
 public final class TradeUtils {
 
@@ -71,7 +69,7 @@ public final class TradeUtils {
 		Int2ObjectMap<TradeOffers.Factory[]> allTrades = TradeOffers.PROFESSION_TO_LEVELED_TRADE.getOrDefault(profession, new Int2ObjectArrayMap<>(Level.SIZE));
 		TradeOffers.Factory[] oldLevelTrades = allTrades.getOrDefault(level.asInt(), new TradeOffers.Factory[0]);
 		TradeOffers.Factory[] newLevelTrades = new TradeOffers.Factory[tradeOffers.length];
-		newLevelTrades = Arrays.stream(tradeOffers).map(TradeUtils::asFactory).collect(Collectors.toList()).toArray(newLevelTrades);
+		newLevelTrades = Arrays.stream(tradeOffers).map(TradeUtils::asFactory).toList().toArray(newLevelTrades);
 		TradeOffers.Factory[] allLevelTrades;
 
 		if (replace)
