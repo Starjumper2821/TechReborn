@@ -63,6 +63,8 @@ public class ModRegistry {
 		registerItems();
 		registerFluids();
 		registerSounds();
+		TRVillager.registerVillagerTrades();
+		TRVillager.registerWanderingTraderTrades();
 	}
 
 	private static void registerBlocks() {
