@@ -88,6 +88,7 @@ public class TRVillager {
 		List<TradeOffer> extraRareTrades = new LinkedList<>();
 		// specify extra trades below here
 		extraCommonTrades.add(TradeUtils.createSell(TRContent.RUBBER_SAPLING, 5, 1, 8, 1));
+		extraCommonTrades.add(TradeUtils.createSell(TRContent.Dusts.COAL, 3, 1, 12, 1));
 		// registration of the trades, no changes necessary for new trades
 		TradeOfferHelper.registerWanderingTraderOffers(1, allTradesList -> allTradesList.addAll(
 			extraCommonTrades.stream().map(TradeUtils::asFactory).toList()
