@@ -604,4 +604,19 @@ public class TechRebornConfig {
 
 	@Config(config = "world", category = "loot", key = "enableEndLoot", comment = "When true TechReborn will add ingots, machine frames and circuits to The End loot chests.")
 	public static boolean enableEndLoot = true;
+
+	@Config(config = "machines", category = "fishing_station", key = "FishingStationMaxInput", comment = "Fishing Station Max Input (Energy per tick)")
+	public static int fishingStationMaxInput = 128;
+
+	@Config(config = "machines", category = "fishing_station", key = "FishingStationMaxEnergy", comment = "Fishing Station Max Energy")
+	public static int fishingStationMaxEnergy = 10_000;
+
+	@Config(config = "machines", category = "fishing_station", key = "FishingStationEnergyPerCatch", comment = "How much energy the Fishing Station uses per catch")
+	public static int fishingStationEnergyPerCatch = 500;
+
+	@Config(config = "machines", category = "fishing_station", key = "FishingStationInterval", comment = "Fishing Station Catch Interval in Ticks > 0")
+	public static int fishingStationInterval = 400; // 20 seconds
+
+	@Config(config = "world", category = "loot", key = "enableFishingJunkLoot", comment = "When true TechReborn will add items to fishing junk loot.")
+	public static boolean enableFishingJunkLoot = true;
 }
