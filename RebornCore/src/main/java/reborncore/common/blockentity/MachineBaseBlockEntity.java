@@ -28,7 +28,6 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventory;
@@ -36,16 +35,16 @@ import net.minecraft.inventory.SidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
-import net.minecraft.util.BlockRotation;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Tickable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import org.apache.commons.lang3.Validate;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import reborncore.api.IListInfoProvider;
 import reborncore.api.blockentity.IUpgrade;
 import reborncore.api.blockentity.IUpgradeable;
@@ -60,8 +59,6 @@ import reborncore.common.recipes.RecipeCrafter;
 import reborncore.common.util.RebornInventory;
 import reborncore.common.util.Tank;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -134,7 +131,8 @@ public class MachineBaseBlockEntity extends BlockEntity implements Tickable, IUp
 
 	@Override
 	public NbtCompound toInitialChunkDataNbt() {
-		NbtCompound compound = super.writeNbt(new NbtCompound());
+		NbtCompound compound = new NbtCompound();
+		super.writeNbt(compound);
 		writeNbt(compound);
 		return compound;
 	}
@@ -158,6 +156,7 @@ public class MachineBaseBlockEntity extends BlockEntity implements Tickable, IUp
 					((IUpgrade) stack.getItem()).process(this, this, stack);
 				}
 			}
+			afterUpgradesApplication();
 		}
 		if (world == null || world.isClient) {
 			return;
@@ -176,6 +175,9 @@ public class MachineBaseBlockEntity extends BlockEntity implements Tickable, IUp
 	public void resetUpgrades() {
 		resetPowerMulti();
 		resetSpeedMulti();
+	}
+
+	protected void afterUpgradesApplication() {
 	}
 
 	public int getFacingInt() {
@@ -210,8 +212,7 @@ public class MachineBaseBlockEntity extends BlockEntity implements Tickable, IUp
 	}
 
 	public Optional<RebornInventory<?>> getOptionalInventory() {
-		if (this instanceof InventoryProvider) {
-			InventoryProvider inventory = (InventoryProvider) this;
+		if (this instanceof InventoryProvider inventory) {
 			if (inventory.getInventory() == null) {
 				return Optional.empty();
 			}
@@ -221,8 +222,7 @@ public class MachineBaseBlockEntity extends BlockEntity implements Tickable, IUp
 	}
 
 	protected Optional<RecipeCrafter> getOptionalCrafter() {
-		if (this instanceof IRecipeCrafterProvider) {
-			IRecipeCrafterProvider crafterProvider = (IRecipeCrafterProvider) this;
+		if (this instanceof IRecipeCrafterProvider crafterProvider) {
 			if (crafterProvider.getRecipeCrafter() == null) {
 				return Optional.empty();
 			}
@@ -307,11 +307,6 @@ public class MachineBaseBlockEntity extends BlockEntity implements Tickable, IUp
 	}
 
 	@Override
-	public void applyRotation(BlockRotation rotationIn) {
-		setFacing(rotationIn.rotate(getFacing()));
-	}
-
-	@Override
 	public void resetSpeedMulti() {
 		speedMultiplier = 0;
 	}
@@ -338,7 +333,7 @@ public class MachineBaseBlockEntity extends BlockEntity implements Tickable, IUp
 
 	@Override
 	public double getEuPerTick(double baseEu) {
-		return baseEu * powerMultiplier;
+		return (long) (baseEu * powerMultiplier);
 	}
 
 	@Override
@@ -443,7 +438,7 @@ public class MachineBaseBlockEntity extends BlockEntity implements Tickable, IUp
 		}
 		return false;
 	}
-	
+
 	@Override
 	public boolean isValid(int slot, ItemStack stack) {
 		return isItemValidForSlot(slot, stack);

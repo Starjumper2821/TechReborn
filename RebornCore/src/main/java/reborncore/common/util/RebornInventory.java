@@ -27,12 +27,10 @@ package reborncore.common.util;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.util.math.Direction;
+import org.jetbrains.annotations.NotNull;
 import reborncore.api.items.InventoryBase;
 import reborncore.common.blockentity.MachineBaseBlockEntity;
 import reborncore.common.blockentity.SlotConfiguration;
-
-import org.jetbrains.annotations.NotNull;
 
 public class RebornInventory<T extends MachineBaseBlockEntity> extends InventoryBase {
 
@@ -45,24 +43,21 @@ public class RebornInventory<T extends MachineBaseBlockEntity> extends Inventory
 	public RebornInventory(int size, String invName, int invStackLimit, T blockEntity, IInventoryAccess<T> access) {
 		super(size);
 		name = invName;
-		stackLimit = (invStackLimit == 64 ? Items.AIR.getMaxCount() : invStackLimit); //Blame asie for this
+		stackLimit = (invStackLimit == 64 ? Items.AIR.getMaxCount() : invStackLimit); // Blame asie for this
 		this.blockEntity = blockEntity;
 		this.inventoryAccess = access;
 	}
 
-	//If you are using this with a machine, dont forget to set .withConfiguredAccess()
+	// If you are using this with a machine, don't forget to set .withConfiguredAccess()
 	public RebornInventory(int size, String invName, int invStackLimit, T blockEntity) {
 		this(size, invName, invStackLimit, blockEntity, (slotID, stack, facing, direction, be) -> {
 			if (facing == null) {
 				return true;
 			}
-			switch (direction) {
-				case INSERT:
-					return SlotConfiguration.canInsertItem(slotID, stack, facing, be);
-				case EXTRACT:
-					return SlotConfiguration.canExtractItem(slotID, stack, facing, be);
-			}
-			return false;
+			return switch (direction) {
+				case INSERT -> SlotConfiguration.canInsertItem(slotID, stack, facing, be);
+				case EXTRACT -> SlotConfiguration.canExtractItem(slotID, stack, facing, be);
+			};
 		});
 	}
 
@@ -73,7 +68,7 @@ public class RebornInventory<T extends MachineBaseBlockEntity> extends Inventory
 	@Override
 	public void setStack(int slot, @NotNull ItemStack stack) {
 		super.setStack(slot, stack);
-		setChanged();
+		setHashChanged();
 	}
 
 	@Override
@@ -81,7 +76,7 @@ public class RebornInventory<T extends MachineBaseBlockEntity> extends Inventory
 		ItemStack stack = super.removeStack(i, i1);
 
 		if (!stack.isEmpty()) {
-			setChanged();
+			setHashChanged();
 		}
 
 		return stack;
@@ -95,14 +90,8 @@ public class RebornInventory<T extends MachineBaseBlockEntity> extends Inventory
 	public ItemStack shrinkSlot(int slot, int count) {
 		ItemStack stack = getStack(slot);
 		stack.decrement(count);
-		setChanged();
+		setHashChanged();
 		return stack;
-	}
-
-
-	public RebornInventory getExternal(Direction facing) {
-		throw new UnsupportedOperationException("needs fixing");
-		//return externalInventory.withFacing(facing);
 	}
 
 	public void read(NbtCompound data) {
@@ -110,8 +99,8 @@ public class RebornInventory<T extends MachineBaseBlockEntity> extends Inventory
 	}
 
 	public void read(NbtCompound data, String tag) {
-		NbtCompound nbttaglist = data.getCompound(tag);
-		deserializeNBT(nbttaglist);
+		NbtCompound nbtTagList = data.getCompound(tag);
+		deserializeNBT(nbtTagList);
 		hasChanged = true;
 	}
 
@@ -143,15 +132,16 @@ public class RebornInventory<T extends MachineBaseBlockEntity> extends Inventory
 		return hasChanged;
 	}
 
-	public void setChanged() {
+	public void setHashChanged() {
 		this.hasChanged = true;
+		this.markDirty();
 	}
 
-	public void setChanged(boolean changed) {
+	public void setHashChanged(boolean changed) {
 		this.hasChanged = changed;
 	}
 
-	public void resetChanged() {
+	public void resetHasChanged() {
 		this.hasChanged = false;
 	}
 

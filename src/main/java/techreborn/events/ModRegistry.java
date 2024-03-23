@@ -24,6 +24,7 @@
 
 package techreborn.events;
 
+import net.fabricmc.fabric.api.transfer.v1.item.ItemStorage;
 import net.minecraft.block.*;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.item.Item;
@@ -33,6 +34,7 @@ import net.minecraft.item.ToolMaterials;
 import reborncore.RebornRegistry;
 import team.reborn.energy.EnergyTier;
 import techreborn.TechReborn;
+import techreborn.blockentity.storage.item.StorageUnitBaseBlockEntity;
 import techreborn.blocks.misc.*;
 import techreborn.config.TechRebornConfig;
 import techreborn.init.*;
@@ -63,6 +65,7 @@ public class ModRegistry {
 		registerItems();
 		registerFluids();
 		registerSounds();
+		registerApis();
 		TRVillager.registerVillagerTrades();
 		TRVillager.registerWanderingTraderTrades();
 	}
@@ -224,5 +227,10 @@ public class ModRegistry {
 		ModSounds.MACHINE_RUN = InitUtils.setup("machine_run");
 		ModSounds.MACHINE_START = InitUtils.setup("machine_start");
 		ModSounds.SAP_EXTRACT = InitUtils.setup("sap_extract");
+	}
+
+	private static void registerApis() {
+//		EnergyStorage.SIDED.registerForBlockEntity(CableBlockEntity::getSideEnergyStorage, TRBlockEntities.CABLE);
+		ItemStorage.SIDED.registerForBlockEntity(StorageUnitBaseBlockEntity::getExposedStorage, TRBlockEntities.STORAGE_UNIT);
 	}
 }
