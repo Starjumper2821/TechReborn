@@ -23,13 +23,6 @@ repositories {
         url = "https://maven.modmuss50.me/"
     }
     maven {
-        name = "BuildCraft"
-        url = "https://mod-buildcraft.com/maven"
-        content {
-            includeGroup "alexiil.mc.lib"
-        }
-    }
-    maven {
         url = "https://www.cursemaven.com"
         content {
             includeGroup "curse.maven"
