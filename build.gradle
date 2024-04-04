@@ -75,7 +75,7 @@ allprojects {
         modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
         //Fabric api
-        modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fapi_version}"
+        modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
         include(modApi("teamreborn:energy:${project.energy_version}"))
     }
