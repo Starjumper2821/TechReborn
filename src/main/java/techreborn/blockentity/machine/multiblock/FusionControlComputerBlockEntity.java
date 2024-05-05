@@ -32,6 +32,8 @@ import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
+import org.jetbrains.annotations.Nullable;
 import reborncore.client.screen.BuiltScreenHandlerProvider;
 import reborncore.client.screen.builder.BuiltScreenHandler;
 import reborncore.client.screen.builder.ScreenHandlerBuilder;
@@ -42,7 +44,6 @@ import reborncore.common.util.ItemUtils;
 import reborncore.common.util.RebornInventory;
 import reborncore.common.util.StringUtils;
 import reborncore.common.util.Torus;
-import team.reborn.energy.EnergySide;
 import techreborn.api.recipe.recipes.FusionReactorRecipe;
 import techreborn.blockentity.machine.GenericMachineBlockEntity;
 import techreborn.config.TechRebornConfig;
@@ -227,12 +228,12 @@ public class FusionControlComputerBlockEntity extends GenericMachineBlockEntity 
 	}
 
 	@Override
-	public double getBaseMaxPower() {
-		return Math.min(TechRebornConfig.fusionControlComputerMaxEnergy * getPowerMultiplier(), Integer.MAX_VALUE);
+	public long getBaseMaxPower() {
+		return Math.min((long) (TechRebornConfig.fusionControlComputerMaxEnergy * getPowerMultiplier()), Long.MAX_VALUE);
 	}
 
 	@Override
-	public double getBaseMaxOutput() {
+	public long getBaseMaxOutput() {
 		if (!hasStartedCrafting) {
 			return 0;
 		}
@@ -240,7 +241,7 @@ public class FusionControlComputerBlockEntity extends GenericMachineBlockEntity 
 	}
 
 	@Override
-	public double getBaseMaxInput() {
+	public long getBaseMaxInput() {
 		if (hasStartedCrafting) {
 			return 0;
 		}
@@ -295,7 +296,7 @@ public class FusionControlComputerBlockEntity extends GenericMachineBlockEntity 
 
 			if (!hasStartedCrafting) {
 				// Ignition!
-				if (getStored(EnergySide.UNKNOWN) > currentRecipe.getStartEnergy()) {
+				if (getStored() > currentRecipe.getStartEnergy()) {
 					useEnergy(currentRecipe.getStartEnergy());
 					hasStartedCrafting = true;
 					useInput(topStackSlot);
@@ -306,12 +307,12 @@ public class FusionControlComputerBlockEntity extends GenericMachineBlockEntity 
 				// Power gen
 				if (currentRecipe.getPower() > 0) {
 					// Waste power if it has no where to go
-					double power = Math.abs(currentRecipe.getPower()) * getPowerMultiplier();
+					long power = (long) (Math.abs(currentRecipe.getPower()) * getPowerMultiplier());
 					addEnergy(power);
 					powerChange = (power);
 					craftingTickTime++;
 				} else { // Power user
-					if (getStored(EnergySide.UNKNOWN) > currentRecipe.getPower()) {
+					if (getStored() > currentRecipe.getPower()) {
 						setEnergy(getEnergy() - currentRecipe.getPower());
 						craftingTickTime++;
 					}
@@ -340,15 +341,15 @@ public class FusionControlComputerBlockEntity extends GenericMachineBlockEntity 
 	}
 
 	@Override
-	protected boolean canAcceptEnergy(EnergySide side) {
+	protected boolean canAcceptEnergy(@Nullable Direction side) {
 		// Accept from sides
-		return !(side == EnergySide.DOWN || side == EnergySide.UP);
+		return !(side == Direction.DOWN || side == Direction.UP);
 	}
 
 	@Override
-	public boolean canProvideEnergy(EnergySide side) {
+	public boolean canProvideEnergy(@Nullable Direction side) {
 		// Provide from top and bottom
-		return side == EnergySide.DOWN || side == EnergySide.UP;
+		return side == Direction.DOWN || side == Direction.UP;
 	}
 
 	@Override

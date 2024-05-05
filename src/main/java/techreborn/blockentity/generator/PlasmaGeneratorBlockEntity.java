@@ -47,12 +47,12 @@ public class PlasmaGeneratorBlockEntity extends BaseFluidGeneratorBlockEntity im
 	}
 
 	@Override
-	public double getBaseMaxPower() {
+	public long getBaseMaxPower() {
 		return TechRebornConfig.plasmaGeneratorMaxEnergy;
 	}
 
 	@Override
-	public double getBaseMaxOutput() {
+	public long getBaseMaxOutput() {
 		return TechRebornConfig.plasmaGeneratorMaxOutput;
 	}
 

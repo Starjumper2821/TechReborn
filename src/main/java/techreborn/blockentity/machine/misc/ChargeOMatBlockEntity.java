@@ -26,6 +26,8 @@ package techreborn.blockentity.machine.misc;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.math.Direction;
+import org.jetbrains.annotations.Nullable;
 import reborncore.api.IToolDrop;
 import reborncore.api.blockentity.InventoryProvider;
 import reborncore.client.screen.BuiltScreenHandlerProvider;
@@ -33,7 +35,6 @@ import reborncore.client.screen.builder.BuiltScreenHandler;
 import reborncore.client.screen.builder.ScreenHandlerBuilder;
 import reborncore.common.powerSystem.PowerAcceptorBlockEntity;
 import reborncore.common.util.RebornInventory;
-import team.reborn.energy.EnergySide;
 import techreborn.config.TechRebornConfig;
 import techreborn.init.TRBlockEntities;
 import techreborn.init.TRContent;
@@ -61,23 +62,23 @@ public class ChargeOMatBlockEntity extends PowerAcceptorBlockEntity
 	}
 
 	@Override
-	public double getBaseMaxPower() {
+	public long getBaseMaxPower() {
 		return TechRebornConfig.chargeOMatBMaxEnergy;
 	}
 
 	@Override
-	public boolean canProvideEnergy(EnergySide side) {
+	public boolean canProvideEnergy(@Nullable Direction side) {
 		// This allows to move energy from BE to chargeable item. #2264
-		return side == EnergySide.UNKNOWN;
+		return side == null;
 	}
 
 	@Override
-	public double getBaseMaxOutput() {
+	public long getBaseMaxOutput() {
 		return TechRebornConfig.chargeOMatBMaxOutput;
 	}
 
 	@Override
-	public double getBaseMaxInput() {
+	public long getBaseMaxInput() {
 		return TechRebornConfig.chargeOMatBMaxInput;
 	}
 

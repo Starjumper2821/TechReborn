@@ -33,6 +33,8 @@ import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Formatting;
+import net.minecraft.util.math.Direction;
+import org.jetbrains.annotations.Nullable;
 import reborncore.api.IToolDrop;
 import reborncore.client.screen.BuiltScreenHandlerProvider;
 import reborncore.client.screen.builder.BuiltScreenHandler;
@@ -40,9 +42,8 @@ import reborncore.client.screen.builder.ScreenHandlerBuilder;
 import reborncore.common.blocks.BlockMachineBase;
 import reborncore.common.powerSystem.PowerAcceptorBlockEntity;
 import reborncore.common.powerSystem.PowerSystem;
+import reborncore.common.powerSystem.RcEnergyTier;
 import reborncore.common.util.StringUtils;
-import team.reborn.energy.EnergySide;
-import team.reborn.energy.EnergyTier;
 import techreborn.blocks.generator.BlockSolarPanel;
 import techreborn.init.TRBlockEntities;
 import techreborn.init.TRContent;
@@ -175,24 +176,24 @@ public class SolarPanelBlockEntity extends PowerAcceptorBlockEntity implements I
 	}
 
 	@Override
-	public double getBaseMaxPower() {
+	public long getBaseMaxPower() {
 		return getPanel().internalCapacity;
 	}
 
 	@Override
-	protected boolean canAcceptEnergy(EnergySide side) { return false; }
+	protected boolean canAcceptEnergy(@Nullable Direction side) { return false; }
 
 	@Override
-	public double getBaseMaxOutput() {
+	public long getBaseMaxOutput() {
 		if (getPanel() == TRContent.SolarPanels.CREATIVE) {
-			return EnergyTier.INSANE.getMaxOutput();
+			return RcEnergyTier.INSANE.getMaxOutput();
 		}
 		// Solar panel output will only be limited by the cables the users use
-		return EnergyTier.EXTREME.getMaxOutput();
+		return RcEnergyTier.EXTREME.getMaxOutput();
 	}
 
 	@Override
-	public double getBaseMaxInput() {
+	public long getBaseMaxInput() {
 		return 0;
 	}
 
@@ -207,7 +208,7 @@ public class SolarPanelBlockEntity extends PowerAcceptorBlockEntity implements I
 	}
 
 	@Override
-	public EnergyTier getTier() {
+	public RcEnergyTier getTier() {
 		return getPanel().powerTier;
 	}
 

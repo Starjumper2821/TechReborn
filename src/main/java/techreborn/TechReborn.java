@@ -26,7 +26,6 @@ package techreborn;
 
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
-import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.block.ComposterBlock;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.Fluids;

@@ -56,7 +56,6 @@ import org.jetbrains.annotations.Nullable;
 import reborncore.api.ToolManager;
 import reborncore.common.blocks.BlockWrenchEventHandler;
 import reborncore.common.util.WrenchUtils;
-import team.reborn.energy.Energy;
 import techreborn.api.events.CableElectrocutionEvent;
 import techreborn.blockentity.cable.CableBlockEntity;
 import techreborn.config.TechRebornConfig;
@@ -100,43 +99,6 @@ public class CableBlock extends BlockWithEntity implements Waterloggable {
 				.with(SOUTH, false).with(UP, false).with(DOWN, false).with(WATERLOGGED, false).with(COVERED, false));
 		BlockWrenchEventHandler.wrenableBlocks.add(this);
 		cableShapeUtil = new CableShapeUtil(this);
-	}
-
-	public BooleanProperty getProperty(Direction facing) {
-		switch (facing) {
-			case WEST:
-				return WEST;
-			case NORTH:
-				return NORTH;
-			case SOUTH:
-				return SOUTH;
-			case UP:
-				return UP;
-			case DOWN:
-				return DOWN;
-			default:
-				return EAST;
-		}
-	}
-
-	private BlockState makeConnections(World world, BlockPos pos) {
-		Boolean down = canConnectTo(world, pos.down());
-		Boolean up = canConnectTo(world, pos.up());
-		Boolean north = canConnectTo(world, pos.north());
-		Boolean east = canConnectTo(world, pos.east());
-		Boolean south = canConnectTo(world, pos.south());
-		Boolean west = canConnectTo(world, pos.west());
-
-		return this.getDefaultState().with(DOWN, down).with(UP, up).with(NORTH, north).with(EAST, east)
-				.with(SOUTH, south).with(WEST, west);
-	}
-
-	private Boolean canConnectTo(WorldAccess world, BlockPos pos) {
-		BlockEntity blockEntity = world.getBlockEntity(pos);
-		if (blockEntity != null && (Energy.valid(blockEntity) || blockEntity instanceof CableBlockEntity)) {
-			return Boolean.TRUE;
-		}
-		return Boolean.FALSE;
 	}
 
 	// BlockContainer
@@ -203,19 +165,27 @@ public class CableBlock extends BlockWithEntity implements Waterloggable {
 
 	@Override
 	public BlockState getPlacementState(ItemPlacementContext context) {
-		return makeConnections(context.getWorld(), context.getBlockPos())
+		return getDefaultState()
 				.with(WATERLOGGED, context.getWorld().getFluidState(context.getBlockPos()).getFluid() == Fluids.WATER);
 	}
 
 	@SuppressWarnings("deprecation")
 	@Override
-	public BlockState getStateForNeighborUpdate(BlockState ourState, Direction ourFacing, BlockState otherState,
+	public BlockState getStateForNeighborUpdate(BlockState ourState, Direction direction, BlockState otherState,
 												WorldAccess worldIn, BlockPos ourPos, BlockPos otherPos) {
 		if (ourState.get(WATERLOGGED)) {
 			worldIn.getFluidTickScheduler().schedule(ourPos, Fluids.WATER, Fluids.WATER.getTickRate(worldIn));
 		}
-		Boolean value = canConnectTo(worldIn, otherPos);
-		return ourState.with(getProperty(ourFacing), value);
+		return ourState;
+	}
+
+	@SuppressWarnings("deprecation")
+	@Override
+	public void neighborUpdate(BlockState state, World world, BlockPos pos, Block block, BlockPos fromPos, boolean notify) {
+		if (world.getBlockEntity(pos) instanceof CableBlockEntity cable) {
+			cable.neighborUpdate();
+		}
+		super.neighborUpdate(state, world, pos, block, fromPos, notify);
 	}
 
 	@SuppressWarnings("deprecation")
@@ -242,11 +212,10 @@ public class CableBlock extends BlockWithEntity implements Waterloggable {
 		if (blockEntity == null) {
 			return;
 		}
-		if (!(blockEntity instanceof CableBlockEntity)) {
+		if (!(blockEntity instanceof CableBlockEntity blockEntityCable)) {
 			return;
 		}
 
-		CableBlockEntity blockEntityCable = (CableBlockEntity) blockEntity;
 		if (blockEntityCable.getEnergy() <= 0) {
 			return;
 		}
@@ -260,7 +229,7 @@ public class CableBlock extends BlockWithEntity implements Waterloggable {
 				entity.setOnFireFor(1);
 			}
 			entity.damage(new ElectrialShockSource(), 1F);
-			blockEntityCable.setEnergy(0d);
+			blockEntityCable.setEnergy(0);
 		}
 		if (TechRebornConfig.uninsulatedElectrocutionSound) {
 			world.playSound(null, entity.getX(), entity.getY(), entity.getZ(), ModSounds.CABLE_SHOCK, SoundCategory.BLOCKS,

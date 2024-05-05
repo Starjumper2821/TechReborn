@@ -31,9 +31,11 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.screen.ScreenHandler;
+import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import org.apache.commons.lang3.tuple.Pair;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import reborncore.api.IToolDrop;
 import reborncore.api.blockentity.InventoryProvider;
 import reborncore.client.screen.BuiltScreenHandlerProvider;
@@ -43,7 +45,6 @@ import reborncore.common.blocks.BlockMachineBase;
 import reborncore.common.powerSystem.PowerAcceptorBlockEntity;
 import reborncore.common.util.ItemUtils;
 import reborncore.common.util.RebornInventory;
-import team.reborn.energy.EnergySide;
 import techreborn.api.recipe.recipes.RollingMachineRecipe;
 import techreborn.config.TechRebornConfig;
 import techreborn.init.ModRecipes;
@@ -79,22 +80,22 @@ public class RollingMachineBlockEntity extends PowerAcceptorBlockEntity
 	}
 
 	@Override
-	public double getBaseMaxPower() {
+	public long getBaseMaxPower() {
 		return TechRebornConfig.rollingMachineMaxEnergy;
 	}
 
 	@Override
-	public boolean canProvideEnergy(EnergySide side) {
+	public boolean canProvideEnergy(@Nullable Direction side) {
 		return false;
 	}
 
 	@Override
-	public double getBaseMaxOutput() {
+	public long getBaseMaxOutput() {
 		return 0;
 	}
 
 	@Override
-	public double getBaseMaxInput() {
+	public long getBaseMaxInput() {
 		return TechRebornConfig.rollingMachineMaxInput;
 	}
 
@@ -155,10 +156,10 @@ public class RollingMachineBlockEntity extends PowerAcceptorBlockEntity
 			tickTime = 0;
 		}
 		if (!currentRecipeOutput.isEmpty()) {
-			if (getStored(EnergySide.UNKNOWN) > getEuPerTick(TechRebornConfig.rollingMachineEnergyPerTick)
+			if (getStored() > getEnergyPerTick(TechRebornConfig.rollingMachineEnergyPerTick)
 					&& tickTime < Math.max((int) (TechRebornConfig.rollingMachineRunTime * (1.0 - getSpeedMultiplier())), 1)
 					&& canMake(craftMatrix)) {
-				useEnergy(getEuPerTick(TechRebornConfig.rollingMachineEnergyPerTick));
+				useEnergy(getEnergyPerTick(TechRebornConfig.rollingMachineEnergyPerTick));
 				tickTime++;
 			} else {
 				setIsActive(false);

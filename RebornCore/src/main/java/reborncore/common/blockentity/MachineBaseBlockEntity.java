@@ -332,8 +332,8 @@ public class MachineBaseBlockEntity extends BlockEntity implements Tickable, IUp
 	}
 
 	@Override
-	public double getEuPerTick(double baseEu) {
-		return (long) (baseEu * powerMultiplier);
+	public long getEnergyPerTick(long baseEnergy) {
+		return (long) (baseEnergy * powerMultiplier);
 	}
 
 	@Override

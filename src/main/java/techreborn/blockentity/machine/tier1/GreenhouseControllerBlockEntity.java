@@ -32,6 +32,7 @@ import net.minecraft.state.property.IntProperty;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import org.jetbrains.annotations.Nullable;
 import reborncore.api.IToolDrop;
 import reborncore.api.blockentity.InventoryProvider;
 import reborncore.client.screen.BuiltScreenHandlerProvider;
@@ -41,7 +42,6 @@ import reborncore.common.blockentity.MultiblockWriter;
 import reborncore.common.powerSystem.PowerAcceptorBlockEntity;
 import reborncore.common.util.ItemUtils;
 import reborncore.common.util.RebornInventory;
-import team.reborn.energy.EnergySide;
 import techreborn.blocks.lighting.LampBlock;
 import techreborn.blocks.misc.BlockRubberLog;
 import techreborn.config.TechRebornConfig;
@@ -77,7 +77,7 @@ public class GreenhouseControllerBlockEntity extends PowerAcceptorBlockEntity
 					|| block instanceof SugarCaneBlock
 					|| block instanceof CactusBlock
 			) {
-				if (getStored(EnergySide.UNKNOWN) > TechRebornConfig.greenhouseControllerEnergyPerBonemeal) {
+				if (getStored() > TechRebornConfig.greenhouseControllerEnergyPerBonemeal) {
 					useEnergy(TechRebornConfig.greenhouseControllerEnergyPerBonemeal);
 					blockState.scheduledTick((ServerWorld) world, blockPos, world.random);
 				}
@@ -113,7 +113,7 @@ public class GreenhouseControllerBlockEntity extends PowerAcceptorBlockEntity
 		} else if (block instanceof BlockRubberLog) {
 			for (int y = 0; (blockState = world.getBlockState(blockPos.up(y))).getBlock() == block && y < 10; y++) {
 				if (blockState.get(BlockRubberLog.HAS_SAP)
-						&& (getStored(EnergySide.UNKNOWN) > TechRebornConfig.greenhouseControllerEnergyPerHarvest)
+						&& (getStored() > TechRebornConfig.greenhouseControllerEnergyPerHarvest)
 						&& insertIntoInv(Collections.singletonList(TRContent.Parts.SAP.getStack()))
 				) {
 					useEnergy(TechRebornConfig.greenhouseControllerEnergyPerHarvest);
@@ -139,7 +139,7 @@ public class GreenhouseControllerBlockEntity extends PowerAcceptorBlockEntity
 		if (world == null) {
 			return false;
 		}
-		if (getStored(EnergySide.UNKNOWN) < TechRebornConfig.greenhouseControllerEnergyPerHarvest){
+		if (getStored() < TechRebornConfig.greenhouseControllerEnergyPerHarvest){
 			return false;
 		}
 		if (insertIntoInv(Block.getDroppedStacks(blockState, (ServerWorld) world, blockPos, null))) {
@@ -196,7 +196,7 @@ public class GreenhouseControllerBlockEntity extends PowerAcceptorBlockEntity
 			return;
 		}
 
-		if (getStored(EnergySide.UNKNOWN) < getEuPerTick(TechRebornConfig.greenhouseControllerEnergyPerTick)) {
+		if (getStored() < getEnergyPerTick(TechRebornConfig.greenhouseControllerEnergyPerTick)) {
 			return;
 		}
 
@@ -214,22 +214,22 @@ public class GreenhouseControllerBlockEntity extends PowerAcceptorBlockEntity
 	}
 
 	@Override
-	public boolean canProvideEnergy(EnergySide side) {
+	public boolean canProvideEnergy(@Nullable Direction side) {
 		return false;
 	}
 
 	@Override
-	public double getBaseMaxPower() {
+	public long getBaseMaxPower() {
 		return TechRebornConfig.greenhouseControllerMaxEnergy;
 	}
 
 	@Override
-	public double getBaseMaxOutput() {
+	public long getBaseMaxOutput() {
 		return 0;
 	}
 
 	@Override
-	public double getBaseMaxInput() {
+	public long getBaseMaxInput() {
 		return TechRebornConfig.greenhouseControllerMaxInput;
 	}
 

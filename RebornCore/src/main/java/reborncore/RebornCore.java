@@ -44,9 +44,11 @@ import reborncore.common.misc.ModSounds;
 import reborncore.common.misc.RebornCoreTags;
 import reborncore.common.multiblock.MultiblockRegistry;
 import reborncore.common.network.ServerBoundPackets;
+import reborncore.common.powerSystem.PowerAcceptorBlockEntity;
 import reborncore.common.powerSystem.PowerSystem;
 import reborncore.common.util.CalenderUtils;
 import reborncore.common.util.GenericWrenchHelper;
+import team.reborn.energy.api.EnergyStorage;
 
 import java.io.File;
 import java.util.function.Supplier;
@@ -111,6 +113,13 @@ public class RebornCore implements ModInitializer {
 		/* register UnloadHandler */
 		ServerBlockEntityEvents.BLOCK_ENTITY_UNLOAD.register((blockEntity, world) -> {
 			if (blockEntity instanceof UnloadHandler) ((UnloadHandler) blockEntity).onUnload();
+		});
+
+		EnergyStorage.SIDED.registerFallback((world, pos, state, be, direction) -> {
+			if (be instanceof PowerAcceptorBlockEntity powerAcceptor) {
+				return powerAcceptor.getSideEnergyStorage(direction);
+			}
+			return null;
 		});
 
 		LOGGER.info("Reborn core is done for now, now to let other mods have their turn...");

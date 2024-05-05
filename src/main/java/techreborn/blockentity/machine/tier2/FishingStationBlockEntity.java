@@ -46,7 +46,6 @@ import reborncore.client.screen.builder.ScreenHandlerBuilder;
 import reborncore.common.powerSystem.PowerAcceptorBlockEntity;
 import reborncore.common.util.ItemUtils;
 import reborncore.common.util.RebornInventory;
-import team.reborn.energy.EnergySide;
 import techreborn.config.TechRebornConfig;
 import techreborn.init.TRBlockEntities;
 import techreborn.init.TRContent;
@@ -101,9 +100,9 @@ public class FishingStationBlockEntity extends PowerAcceptorBlockEntity implemen
 
 		charge(6);
 
-		double useRequirement = getEuPerTick(TechRebornConfig.fishingStationEnergyPerCatch);
+		long useRequirement = getEnergyPerTick(TechRebornConfig.fishingStationEnergyPerCatch);
 
-		if (getStored(EnergySide.NORTH) < useRequirement) {
+		if (getStored() < useRequirement) {
 			return;
 		}
 
@@ -133,7 +132,7 @@ public class FishingStationBlockEntity extends PowerAcceptorBlockEntity implemen
 	}
 
 	@Override
-	public double getBaseMaxPower() {
+	public long getBaseMaxPower() {
 		return TechRebornConfig.fishingStationMaxEnergy;
 	}
 
@@ -143,12 +142,12 @@ public class FishingStationBlockEntity extends PowerAcceptorBlockEntity implemen
 	}
 
 	@Override
-	public double getBaseMaxOutput() {
+	public long getBaseMaxOutput() {
 		return 0;
 	}
 
 	@Override
-	public double getBaseMaxInput() {
+	public long getBaseMaxInput() {
 		return TechRebornConfig.fishingStationMaxInput;
 	}
 

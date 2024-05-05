@@ -28,7 +28,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import reborncore.client.screen.BuiltScreenHandlerProvider;
 import reborncore.client.screen.builder.BuiltScreenHandler;
 import reborncore.client.screen.builder.ScreenHandlerBuilder;
-import team.reborn.energy.EnergyTier;
+import reborncore.common.powerSystem.RcEnergyTier;
 import techreborn.init.TRBlockEntities;
 import techreborn.init.TRContent;
 
@@ -41,7 +41,7 @@ public class HighVoltageSUBlockEntity extends EnergyStorageBlockEntity implement
 	 * MFSU should store 4M Energy with 512 E/t I/O
 	 */
 	public HighVoltageSUBlockEntity() {
-		super(TRBlockEntities.HIGH_VOLTAGE_SU, "HIGH_VOLTAGE_SU", 2, TRContent.Machine.HIGH_VOLTAGE_SU.block, EnergyTier.HIGH, 4_000_000);
+		super(TRBlockEntities.HIGH_VOLTAGE_SU, "HIGH_VOLTAGE_SU", 2, TRContent.Machine.HIGH_VOLTAGE_SU.block, RcEnergyTier.HIGH, 4_000_000);
 	}
 
 	@Override

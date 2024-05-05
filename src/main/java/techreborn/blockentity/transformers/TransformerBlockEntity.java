@@ -32,13 +32,13 @@ import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.math.Direction;
+import org.jetbrains.annotations.Nullable;
 import reborncore.api.IListInfoProvider;
 import reborncore.api.IToolDrop;
 import reborncore.common.powerSystem.PowerAcceptorBlockEntity;
 import reborncore.common.powerSystem.PowerSystem;
+import reborncore.common.powerSystem.RcEnergyTier;
 import reborncore.common.util.StringUtils;
-import team.reborn.energy.EnergySide;
-import team.reborn.energy.EnergyTier;
 import techreborn.blocks.transformers.BlockTransformer;
 import techreborn.config.TechRebornConfig;
 
@@ -51,20 +51,20 @@ public class TransformerBlockEntity extends PowerAcceptorBlockEntity implements 
 
 	public String name;
 	public Block wrenchDrop;
-	public EnergyTier inputTier;
-	public EnergyTier outputTier;
+	public RcEnergyTier inputTier;
+	public RcEnergyTier outputTier;
 	public int maxInput;
 	public int maxOutput;
 	public int maxStorage;
 
-	public TransformerBlockEntity(BlockEntityType<?> blockEntityType, String name, Block wrenchDrop, EnergyTier tier) {
+	public TransformerBlockEntity(BlockEntityType<?> blockEntityType, String name, Block wrenchDrop, RcEnergyTier tier) {
 		super(blockEntityType);
 		this.wrenchDrop = wrenchDrop;
 		this.inputTier = tier;
-		if (tier != EnergyTier.MICRO) {
-			outputTier = EnergyTier.values()[tier.ordinal() - 1];
+		if (tier != RcEnergyTier.MICRO) {
+			outputTier = RcEnergyTier.values()[tier.ordinal() - 1];
 		} else {
-			outputTier = EnergyTier.MICRO;
+			outputTier = RcEnergyTier.MICRO;
 		}
 		this.name = name;
 		this.maxInput = tier.getMaxInput();
@@ -75,8 +75,8 @@ public class TransformerBlockEntity extends PowerAcceptorBlockEntity implements 
 
 	// PowerAcceptorBlockEntity
 	@Override
-	protected boolean canAcceptEnergy(EnergySide side) {
-		if (side == EnergySide.UNKNOWN) {
+	protected boolean canAcceptEnergy(@Nullable Direction side) {
+		if (side == null) {
 			return true;
 		}
 		if (TechRebornConfig.IC2TransformersStyle) {
@@ -86,8 +86,8 @@ public class TransformerBlockEntity extends PowerAcceptorBlockEntity implements 
 	}
 
 	@Override
-	protected boolean canProvideEnergy(EnergySide side) {
-		if (side == EnergySide.UNKNOWN) {
+	protected boolean canProvideEnergy(@Nullable Direction side) {
+		if (side == null) {
 			return true;
 		}
 		if (TechRebornConfig.IC2TransformersStyle) {
@@ -97,17 +97,17 @@ public class TransformerBlockEntity extends PowerAcceptorBlockEntity implements 
 	}
 
 	@Override
-	public double getBaseMaxPower() {
+	public long getBaseMaxPower() {
 		return maxStorage;
 	}
 
 	@Override
-	public double getBaseMaxOutput() {
+	public long getBaseMaxOutput() {
 		return outputTier.getMaxOutput();
 	}
 
 	@Override
-	public double getBaseMaxInput() {
+	public long getBaseMaxInput() {
 		return inputTier.getMaxInput();
 	}
 
@@ -147,7 +147,7 @@ public class TransformerBlockEntity extends PowerAcceptorBlockEntity implements 
 				new TranslatableText("reborncore.tooltip.energy.inputRate")
 						.formatted(Formatting.GRAY)
 						.append(": ")
-						.append(PowerSystem.getLocalizedPower(getMaxInput(EnergySide.UNKNOWN)))
+						.append(PowerSystem.getLocalizedPower(getMaxInput(null)))
 						.formatted(Formatting.GOLD)
 		);
 		info.add(
@@ -161,7 +161,7 @@ public class TransformerBlockEntity extends PowerAcceptorBlockEntity implements 
 				new TranslatableText("reborncore.tooltip.energy.outputRate")
 						.formatted(Formatting.GRAY)
 						.append(": ")
-						.append(PowerSystem.getLocalizedPower(getMaxOutput(EnergySide.UNKNOWN)))
+						.append(PowerSystem.getLocalizedPower(getMaxOutput(null)))
 						.formatted(Formatting.GOLD)
 		);
 		info.add(

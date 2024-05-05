@@ -32,8 +32,10 @@ import net.minecraft.item.Item.Settings;
 import net.minecraft.item.Items;
 import net.minecraft.item.ToolMaterials;
 import reborncore.RebornRegistry;
-import team.reborn.energy.EnergyTier;
+import reborncore.common.powerSystem.RcEnergyTier;
+import team.reborn.energy.api.EnergyStorage;
 import techreborn.TechReborn;
+import techreborn.blockentity.cable.CableBlockEntity;
 import techreborn.blockentity.storage.item.StorageUnitBaseBlockEntity;
 import techreborn.blocks.misc.*;
 import techreborn.config.TechRebornConfig;
@@ -171,26 +173,26 @@ public class ModRegistry {
 		RebornRegistry.registerItem(TRContent.PERIDOT_BOOTS = InitUtils.setup(new TRArmourItem(TRArmorMaterials.PERIDOT, EquipmentSlot.FEET), "peridot_boots"));
 
 		// Battery
-		RebornRegistry.registerItem(TRContent.RED_CELL_BATTERY = InitUtils.setup(new BatteryItem(TechRebornConfig.redCellBatteryMaxCharge, EnergyTier.LOW), "red_cell_battery"));
-		RebornRegistry.registerItem(TRContent.LITHIUM_ION_BATTERY = InitUtils.setup(new BatteryItem(TechRebornConfig.lithiumIonBatteryMaxCharge, EnergyTier.MEDIUM), "lithium_ion_battery"));
-		RebornRegistry.registerItem(TRContent.LITHIUM_ION_BATPACK = InitUtils.setup(new BatpackItem(TechRebornConfig.lithiumBatpackCharge, TRArmorMaterials.LITHIUM_BATPACK, EnergyTier.MEDIUM), "lithium_ion_batpack"));
-		RebornRegistry.registerItem(TRContent.ENERGY_CRYSTAL = InitUtils.setup(new BatteryItem(TechRebornConfig.energyCrystalMaxCharge, EnergyTier.HIGH), "energy_crystal"));
-		RebornRegistry.registerItem(TRContent.LAPOTRON_CRYSTAL = InitUtils.setup(new BatteryItem(TechRebornConfig.lapotronCrystalMaxCharge, EnergyTier.EXTREME), "lapotron_crystal"));
-		RebornRegistry.registerItem(TRContent.LAPOTRONIC_ORB = InitUtils.setup(new BatteryItem(TechRebornConfig.lapotronicOrbMaxCharge, EnergyTier.INSANE), "lapotronic_orb"));
-		RebornRegistry.registerItem(TRContent.LAPOTRONIC_ORBPACK = InitUtils.setup(new BatpackItem(TechRebornConfig.lapotronPackCharge, TRArmorMaterials.LAPOTRONIC_ORBPACK, EnergyTier.INSANE), "lapotronic_orbpack"));
+		RebornRegistry.registerItem(TRContent.RED_CELL_BATTERY = InitUtils.setup(new BatteryItem(TechRebornConfig.redCellBatteryMaxCharge, RcEnergyTier.LOW), "red_cell_battery"));
+		RebornRegistry.registerItem(TRContent.LITHIUM_ION_BATTERY = InitUtils.setup(new BatteryItem(TechRebornConfig.lithiumIonBatteryMaxCharge, RcEnergyTier.MEDIUM), "lithium_ion_battery"));
+		RebornRegistry.registerItem(TRContent.LITHIUM_ION_BATPACK = InitUtils.setup(new BatpackItem(TechRebornConfig.lithiumBatpackCharge, TRArmorMaterials.LITHIUM_BATPACK, RcEnergyTier.MEDIUM), "lithium_ion_batpack"));
+		RebornRegistry.registerItem(TRContent.ENERGY_CRYSTAL = InitUtils.setup(new BatteryItem(TechRebornConfig.energyCrystalMaxCharge, RcEnergyTier.HIGH), "energy_crystal"));
+		RebornRegistry.registerItem(TRContent.LAPOTRON_CRYSTAL = InitUtils.setup(new BatteryItem(TechRebornConfig.lapotronCrystalMaxCharge, RcEnergyTier.EXTREME), "lapotron_crystal"));
+		RebornRegistry.registerItem(TRContent.LAPOTRONIC_ORB = InitUtils.setup(new BatteryItem(TechRebornConfig.lapotronicOrbMaxCharge, RcEnergyTier.INSANE), "lapotronic_orb"));
+		RebornRegistry.registerItem(TRContent.LAPOTRONIC_ORBPACK = InitUtils.setup(new BatpackItem(TechRebornConfig.lapotronPackCharge, TRArmorMaterials.LAPOTRONIC_ORBPACK, RcEnergyTier.INSANE), "lapotronic_orbpack"));
 
 		// Tools
 		RebornRegistry.registerItem(TRContent.TREE_TAP = InitUtils.setup(new TreeTapItem(), "treetap"));
 		RebornRegistry.registerItem(TRContent.WRENCH = InitUtils.setup(new WrenchItem(), "wrench"));
 		RebornRegistry.registerItem(TRContent.PAINTING_TOOL = InitUtils.setup(new PaintingToolItem(), "painting_tool"));
 
-		RebornRegistry.registerItem(TRContent.BASIC_DRILL = InitUtils.setup(new DrillItem(ToolMaterials.IRON, TechRebornConfig.basicDrillCharge, EnergyTier.MEDIUM, TechRebornConfig.basicDrillCost, 6F, -.5F, MiningLevel.IRON), "basic_drill"));
-		RebornRegistry.registerItem(TRContent.BASIC_CHAINSAW = InitUtils.setup(new ChainsawItem(ToolMaterials.IRON, TechRebornConfig.basicChainsawCharge, EnergyTier.MEDIUM, TechRebornConfig.basicChainsawCost, 20F, 0.5F, Items.IRON_AXE), "basic_chainsaw"));
-		RebornRegistry.registerItem(TRContent.BASIC_JACKHAMMER = InitUtils.setup(new JackhammerItem(TechRebornConfig.basicJackhammerCharge, EnergyTier.MEDIUM, TechRebornConfig.basicJackhammerCost), "basic_jackhammer"));
+		RebornRegistry.registerItem(TRContent.BASIC_DRILL = InitUtils.setup(new DrillItem(ToolMaterials.IRON, TechRebornConfig.basicDrillCharge, RcEnergyTier.MEDIUM, TechRebornConfig.basicDrillCost, 6F, -.5F, MiningLevel.IRON), "basic_drill"));
+		RebornRegistry.registerItem(TRContent.BASIC_CHAINSAW = InitUtils.setup(new ChainsawItem(ToolMaterials.IRON, TechRebornConfig.basicChainsawCharge, RcEnergyTier.MEDIUM, TechRebornConfig.basicChainsawCost, 20F, 0.5F, Items.IRON_AXE), "basic_chainsaw"));
+		RebornRegistry.registerItem(TRContent.BASIC_JACKHAMMER = InitUtils.setup(new JackhammerItem(TechRebornConfig.basicJackhammerCharge, RcEnergyTier.MEDIUM, TechRebornConfig.basicJackhammerCost), "basic_jackhammer"));
 		RebornRegistry.registerItem(TRContent.ELECTRIC_TREE_TAP = InitUtils.setup(new ElectricTreetapItem(), "electric_treetap"));
 
-		RebornRegistry.registerItem(TRContent.ADVANCED_DRILL = InitUtils.setup(new DrillItem(ToolMaterials.DIAMOND, TechRebornConfig.advancedDrillCharge, EnergyTier.EXTREME, TechRebornConfig.advancedDrillCost, 12F, 0.2F, MiningLevel.DIAMOND), "advanced_drill"));
-		RebornRegistry.registerItem(TRContent.ADVANCED_CHAINSAW = InitUtils.setup(new ChainsawItem(ToolMaterials.DIAMOND, TechRebornConfig.advancedChainsawCharge, EnergyTier.EXTREME, TechRebornConfig.advancedChainsawCost, 20F, 1.0F, Items.DIAMOND_AXE), "advanced_chainsaw"));
+		RebornRegistry.registerItem(TRContent.ADVANCED_DRILL = InitUtils.setup(new DrillItem(ToolMaterials.DIAMOND, TechRebornConfig.advancedDrillCharge, RcEnergyTier.EXTREME, TechRebornConfig.advancedDrillCost, 12F, 0.2F, MiningLevel.DIAMOND), "advanced_drill"));
+		RebornRegistry.registerItem(TRContent.ADVANCED_CHAINSAW = InitUtils.setup(new ChainsawItem(ToolMaterials.DIAMOND, TechRebornConfig.advancedChainsawCharge, RcEnergyTier.EXTREME, TechRebornConfig.advancedChainsawCost, 20F, 1.0F, Items.DIAMOND_AXE), "advanced_chainsaw"));
 		RebornRegistry.registerItem(TRContent.ADVANCED_JACKHAMMER = InitUtils.setup(new AdvancedJackhammerItem(), "advanced_jackhammer"));
 		RebornRegistry.registerItem(TRContent.ROCK_CUTTER = InitUtils.setup(new RockCutterItem(), "rock_cutter"));
 
@@ -230,7 +232,7 @@ public class ModRegistry {
 	}
 
 	private static void registerApis() {
-//		EnergyStorage.SIDED.registerForBlockEntity(CableBlockEntity::getSideEnergyStorage, TRBlockEntities.CABLE);
+		EnergyStorage.SIDED.registerForBlockEntity(CableBlockEntity::getSideEnergyStorage, TRBlockEntities.CABLE);
 		ItemStorage.SIDED.registerForBlockEntity(StorageUnitBaseBlockEntity::getExposedStorage, TRBlockEntities.STORAGE_UNIT);
 	}
 }

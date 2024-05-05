@@ -28,6 +28,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.util.math.Direction;
 import org.apache.commons.lang3.Validate;
 import org.jetbrains.annotations.Nullable;
 import reborncore.api.IToolDrop;
@@ -38,7 +39,6 @@ import reborncore.common.fluid.container.ItemFluidInfo;
 import reborncore.common.powerSystem.PowerAcceptorBlockEntity;
 import reborncore.common.util.RebornInventory;
 import reborncore.common.util.Tank;
-import team.reborn.energy.EnergySide;
 import techreborn.api.generator.EFluidGenerator;
 import techreborn.api.generator.FluidGeneratorRecipe;
 import techreborn.api.generator.FluidGeneratorRecipeList;
@@ -147,17 +147,17 @@ public abstract class BaseFluidGeneratorBlockEntity extends PowerAcceptorBlockEn
 	}
 
 	@Override
-	public double getBaseMaxOutput() {
+	public long getBaseMaxOutput() {
 		return euTick;
 	}
 
 	@Override
-	public double getBaseMaxInput() {
+	public long getBaseMaxInput() {
 		return 0;
 	}
 
 	@Override
-	public boolean canAcceptEnergy(EnergySide side) {
+	public boolean canAcceptEnergy(@Nullable Direction side) {
 		return false;
 	}
 

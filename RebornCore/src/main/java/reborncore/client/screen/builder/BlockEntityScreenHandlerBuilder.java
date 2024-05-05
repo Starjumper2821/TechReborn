@@ -48,7 +48,7 @@ import reborncore.client.screen.builder.slot.UpgradeSlot;
 import reborncore.common.blockentity.MachineBaseBlockEntity;
 import reborncore.common.fluid.container.ItemFluidInfo;
 import reborncore.common.powerSystem.PowerAcceptorBlockEntity;
-import team.reborn.energy.Energy;
+import team.reborn.energy.api.EnergyStorageUtil;
 
 import java.util.function.Consumer;
 import java.util.function.Predicate;
@@ -106,13 +106,13 @@ public class BlockEntityScreenHandlerBuilder {
 
 	public BlockEntityScreenHandlerBuilder energySlot(final int index, final int x, final int y) {
 		this.parent.slots.add(new FilteredSlot(this.inventory, index, x, y)
-				.setFilter(Energy::valid));
+			.setFilter(EnergyStorageUtil::isEnergyStorage));
 		return this;
 	}
 
 	public BlockEntityScreenHandlerBuilder fluidSlot(final int index, final int x, final int y) {
 		this.parent.slots.add(new FilteredSlot(this.inventory, index, x, y).setFilter(
-				stack -> stack.getItem() instanceof ItemFluidInfo));
+			stack -> stack.getItem() instanceof ItemFluidInfo));
 		return this;
 	}
 
@@ -124,7 +124,7 @@ public class BlockEntityScreenHandlerBuilder {
 	@Deprecated
 	public BlockEntityScreenHandlerBuilder upgradeSlot(final int index, final int x, final int y) {
 		this.parent.slots.add(new FilteredSlot(this.inventory, index, x, y)
-				.setFilter(stack -> stack.getItem() instanceof IUpgrade));
+			.setFilter(stack -> stack.getItem() instanceof IUpgrade));
 		return this;
 	}
 
@@ -174,8 +174,8 @@ public class BlockEntityScreenHandlerBuilder {
 			PowerAcceptorBlockEntity powerAcceptor = ((PowerAcceptorBlockEntity) this.blockEntity);
 
 			return this.sync(powerAcceptor::getEnergy, powerAcceptor::setEnergy)
-					.sync(powerAcceptor::getExtraPowerStorage, powerAcceptor::setExtraPowerStorage)
-					.sync(powerAcceptor::getPowerChange, powerAcceptor::setPowerChange);
+				.sync(powerAcceptor::getExtraPowerStorage, powerAcceptor::setExtraPowerStorage)
+				.sync(powerAcceptor::getPowerChange, powerAcceptor::setPowerChange);
 		}
 
 		RebornCore.LOGGER.error(this.inventory + " is not an instance of TilePowerAcceptor! Energy cannot be synced.");
@@ -186,8 +186,8 @@ public class BlockEntityScreenHandlerBuilder {
 		if (this.blockEntity instanceof IRecipeCrafterProvider) {
 			IRecipeCrafterProvider recipeCrafter = ((IRecipeCrafterProvider) this.blockEntity);
 			return this
-					.sync(() -> recipeCrafter.getRecipeCrafter().currentTickTime, (time) -> recipeCrafter.getRecipeCrafter().currentTickTime = time)
-					.sync(() -> recipeCrafter.getRecipeCrafter().currentNeededTicks, (ticks) -> recipeCrafter.getRecipeCrafter().currentNeededTicks = ticks);
+				.sync(() -> recipeCrafter.getRecipeCrafter().currentTickTime, (time) -> recipeCrafter.getRecipeCrafter().currentTickTime = time)
+				.sync(() -> recipeCrafter.getRecipeCrafter().currentNeededTicks, (ticks) -> recipeCrafter.getRecipeCrafter().currentNeededTicks = ticks);
 		}
 
 		RebornCore.LOGGER.error(this.inventory + " is not an instance of IRecipeCrafterProvider! Craft progress cannot be synced.");

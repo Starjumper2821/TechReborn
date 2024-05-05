@@ -73,7 +73,7 @@ public class IDSUManager extends PersistentState {
 
 	public class IDSUPlayer implements NBTSerializable {
 
-		private double energy;
+		private long energy;
 
 		private IDSUPlayer() {
 		}
@@ -86,20 +86,20 @@ public class IDSUManager extends PersistentState {
 		@Override
 		public NbtCompound write() {
 			NbtCompound tag = new NbtCompound();
-			tag.putDouble("energy", energy);
+			tag.putLong("energy", energy);
 			return tag;
 		}
 
 		@Override
 		public void read(@NotNull NbtCompound tag) {
-			energy = tag.getDouble("energy");
+			energy = tag.getLong("energy");
 		}
 
-		public double getEnergy() {
+		public long getEnergy() {
 			return energy;
 		}
 
-		public void setEnergy(double energy) {
+		public void setEnergy(long energy) {
 			this.energy = energy;
 			markDirty();
 		}

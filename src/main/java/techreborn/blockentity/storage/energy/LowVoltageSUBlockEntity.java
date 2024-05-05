@@ -28,7 +28,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import reborncore.client.screen.BuiltScreenHandlerProvider;
 import reborncore.client.screen.builder.BuiltScreenHandler;
 import reborncore.client.screen.builder.ScreenHandlerBuilder;
-import team.reborn.energy.EnergyTier;
+import reborncore.common.powerSystem.RcEnergyTier;
 import techreborn.init.TRBlockEntities;
 import techreborn.init.TRContent;
 
@@ -38,7 +38,7 @@ import techreborn.init.TRContent;
 public class LowVoltageSUBlockEntity extends EnergyStorageBlockEntity implements BuiltScreenHandlerProvider {
 
 	public LowVoltageSUBlockEntity() {
-		super(TRBlockEntities.LOW_VOLTAGE_SU, "BatBox", 2, TRContent.Machine.LOW_VOLTAGE_SU.block, EnergyTier.LOW, 40_000);
+		super(TRBlockEntities.LOW_VOLTAGE_SU, "BatBox", 2, TRContent.Machine.LOW_VOLTAGE_SU.block, RcEnergyTier.LOW, 40_000);
 	}
 
 	@Override

@@ -28,14 +28,15 @@ import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.MathHelper;
+import org.jetbrains.annotations.Nullable;
 import reborncore.api.IToolDrop;
 import reborncore.client.screen.BuiltScreenHandlerProvider;
 import reborncore.client.screen.builder.BuiltScreenHandler;
 import reborncore.client.screen.builder.ScreenHandlerBuilder;
 import reborncore.common.powerSystem.PowerAcceptorBlockEntity;
 import reborncore.common.util.WorldUtils;
-import team.reborn.energy.EnergySide;
 import techreborn.blocks.machine.tier1.PlayerDetectorBlock;
 import techreborn.blocks.machine.tier1.PlayerDetectorBlock.PlayerDetectorType;
 import techreborn.config.TechRebornConfig;
@@ -95,7 +96,7 @@ public class PlayerDetectorBlockEntity extends PowerAcceptorBlockEntity implemen
 
 		boolean lastRedstone = redstone;
 		redstone = false;
-		if (getStored(EnergySide.UNKNOWN) > TechRebornConfig.playerDetectorEuPerTick) {
+		if (getStored() > TechRebornConfig.playerDetectorEuPerTick) {
 			for (PlayerEntity player : world.getPlayers()) {
 				if (MathHelper.sqrt((float) player.squaredDistanceTo(pos.getX(), pos.getY(), pos.getZ())) <= (float) radius) {
 					PlayerDetectorType type = world.getBlockState(pos).get(PlayerDetectorBlock.TYPE);
@@ -121,22 +122,22 @@ public class PlayerDetectorBlockEntity extends PowerAcceptorBlockEntity implemen
 	}
 
 	@Override
-	public double getBaseMaxPower() {
+	public long getBaseMaxPower() {
 		return TechRebornConfig.playerDetectorMaxEnergy;
 	}
 
 	@Override
-	public boolean canProvideEnergy(EnergySide side) {
+	public boolean canProvideEnergy(@Nullable Direction side) {
 		return false;
 	}
 
 	@Override
-	public double getBaseMaxOutput() {
+	public long getBaseMaxOutput() {
 		return 0;
 	}
 
 	@Override
-	public double getBaseMaxInput() {
+	public long getBaseMaxInput() {
 		return TechRebornConfig.playerDetectorMaxInput;
 	}
 

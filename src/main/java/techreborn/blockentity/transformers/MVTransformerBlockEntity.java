@@ -24,7 +24,7 @@
 
 package techreborn.blockentity.transformers;
 
-import team.reborn.energy.EnergyTier;
+import reborncore.common.powerSystem.RcEnergyTier;
 import techreborn.init.TRBlockEntities;
 import techreborn.init.TRContent;
 
@@ -34,6 +34,6 @@ import techreborn.init.TRContent;
 public class MVTransformerBlockEntity extends TransformerBlockEntity {
 
 	public MVTransformerBlockEntity() {
-		super(TRBlockEntities.MV_TRANSFORMER, "MVTransformer", TRContent.Machine.MV_TRANSFORMER.block, EnergyTier.HIGH);
+		super(TRBlockEntities.MV_TRANSFORMER, "MVTransformer", TRContent.Machine.MV_TRANSFORMER.block, RcEnergyTier.HIGH);
 	}
 }
