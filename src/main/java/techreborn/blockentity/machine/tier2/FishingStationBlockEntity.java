@@ -94,6 +94,7 @@ public class FishingStationBlockEntity extends PowerAcceptorBlockEntity implemen
 	// PowerAcceptorBlockEntity
 	@Override
 	public void tick() {
+		super.tick();
 		if (world == null || world.isClient){
 			return;
 		}
