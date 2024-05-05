@@ -3,12 +3,12 @@
   "package": "reborncore.mixin.client",
   "compatibilityLevel": "JAVA_16",
   "client": [
-    "MixinGameRenderer",
-    "MixinItemRenderer",
-    "MixinDebugRenderer",
-	"MixinWorldRenderer",
-	"AccessorModelPredicateProviderRegistry",
-	"AccessorChatHud"
+	  "AccessorChatHud",
+	  "AccessorModelPredicateProviderRegistry",
+	  "MixinDebugRenderer",
+	  "MixinGameRenderer",
+	  "MixinItemRenderer",
+	  "MixinWorldRenderer"
   ],
   "injectors": {
     "defaultRequire": 1

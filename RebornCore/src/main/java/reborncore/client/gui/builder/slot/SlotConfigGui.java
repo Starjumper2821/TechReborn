@@ -31,6 +31,7 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.text.LiteralText;
 import net.minecraft.util.Util;
+import org.jetbrains.annotations.Nullable;
 import reborncore.client.gui.GuiUtil;
 import reborncore.client.gui.builder.GuiBase;
 import reborncore.client.gui.builder.slot.elements.ConfigSlotElement;
@@ -43,7 +44,6 @@ import reborncore.common.network.ServerBoundPackets;
 import reborncore.common.util.Color;
 import reborncore.mixin.common.AccessorSlot;
 
-import org.jetbrains.annotations.Nullable;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;

@@ -32,8 +32,8 @@ import net.minecraft.resource.ResourceManager;
 import net.minecraft.resource.metadata.ResourceMetadataReader;
 import net.minecraft.util.Identifier;
 import org.apache.commons.io.IOUtils;
-
 import org.jetbrains.annotations.Nullable;
+
 import java.io.IOException;
 import java.io.InputStream;
 

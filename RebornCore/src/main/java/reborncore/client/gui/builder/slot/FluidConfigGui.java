@@ -27,13 +27,13 @@ package reborncore.client.gui.builder.slot;
 import com.google.common.collect.Lists;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.math.MatrixStack;
+import org.jetbrains.annotations.Nullable;
 import reborncore.client.gui.builder.GuiBase;
 import reborncore.client.gui.builder.slot.elements.ConfigFluidElement;
 import reborncore.client.gui.builder.slot.elements.ElementBase;
 import reborncore.client.gui.builder.slot.elements.SlotType;
 import reborncore.common.blockentity.MachineBaseBlockEntity;
 
-import org.jetbrains.annotations.Nullable;
 import java.util.Collections;
 import java.util.List;
 

@@ -26,7 +26,7 @@ package reborncore.client.gui.guibuilder;
 
 import com.google.common.collect.Lists;
 import com.mojang.blaze3d.systems.RenderSystem;
-import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandlerRegistry;
+import net.fabricmc.fabric.api.transfer.v1.client.fluid.FluidVariantRendering;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
@@ -705,14 +705,14 @@ public class GuiBuilder {
 	 * @param height      int Height of fluid to draw
 	 * @param maxCapacity int Maximum capacity of tank
 	 */
-	public void drawFluid(MatrixStack matrixStack, GuiBase<?> gui, FluidInstance fluid, int x, int y, int width, int height, int maxCapacity) {
+	public void drawFluid(MatrixStack matrixStack, GuiBase<?> gui, FluidInstance fluid, int x, int y, int width, int height, long maxCapacity) {
 		if (fluid.getFluid() == Fluids.EMPTY) {
 			return;
 		}
 		gui.getMinecraft().getTextureManager().bindTexture(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE);
 		y += height;
-		final Sprite sprite = FluidRenderHandlerRegistry.INSTANCE.get(fluid.getFluid()).getFluidSprites(gui.getMachine().getWorld(), gui.getMachine().getPos(), fluid.getFluid().getDefaultState())[0];
-		int color = FluidRenderHandlerRegistry.INSTANCE.get(fluid.getFluid()).getFluidColor(gui.getMachine().getWorld(), gui.getMachine().getPos(), fluid.getFluid().getDefaultState());
+		final Sprite sprite = FluidVariantRendering.getSprite(fluid.getVariant());
+		int color = FluidVariantRendering.getColor(fluid.getVariant());
 
 		final int drawHeight = (int) (fluid.getAmount().getRawValue() / (maxCapacity * 1F) * height);
 		final int iconHeight = sprite.getHeight();
@@ -794,7 +794,7 @@ public class GuiBuilder {
 		gui.drawTexture(matrixStack, x, y, 150 + 23, 122, 3, 26);
 	}
 
-	protected int percentage(int MaxValue, int CurrentValue) {
+	protected int percentage(long MaxValue, long CurrentValue) {
 		if (CurrentValue == 0) {
 			return 0;
 		}

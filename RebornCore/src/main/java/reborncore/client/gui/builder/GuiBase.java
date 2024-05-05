@@ -45,6 +45,7 @@ import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Util;
+import org.jetbrains.annotations.Nullable;
 import org.lwjgl.glfw.GLFW;
 import reborncore.api.blockentity.IUpgradeable;
 import reborncore.client.gui.builder.slot.FluidConfigGui;
@@ -56,7 +57,6 @@ import reborncore.client.screen.builder.BuiltScreenHandler;
 import reborncore.client.screen.builder.slot.PlayerInventorySlot;
 import reborncore.common.blockentity.MachineBaseBlockEntity;
 
-import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;

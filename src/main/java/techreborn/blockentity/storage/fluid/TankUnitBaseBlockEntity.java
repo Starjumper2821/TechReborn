@@ -54,7 +54,7 @@ import java.util.List;
 
 public class TankUnitBaseBlockEntity extends MachineBaseBlockEntity implements InventoryProvider, IToolDrop, IListInfoProvider, BuiltScreenHandlerProvider {
 	protected Tank tank;
-	private int serverMaxCapacity = -1;
+	private long serverMaxCapacity = -1;
 
 	protected RebornInventory<TankUnitBaseBlockEntity> inventory = new RebornInventory<>(2, "TankInventory", 64, this);
 
@@ -167,7 +167,7 @@ public class TankUnitBaseBlockEntity extends MachineBaseBlockEntity implements I
 		info.add(
 				new TranslatableText("techreborn.tooltip.unit.capacity")
 						.formatted(Formatting.GRAY)
-						.append(new LiteralText(String.valueOf(this.tank.getCapacity()))
+					.append(new LiteralText(String.valueOf(this.tank.getFluidValueCapacity()))
 								.formatted(Formatting.GOLD))
 		);
 	}
@@ -184,11 +184,11 @@ public class TankUnitBaseBlockEntity extends MachineBaseBlockEntity implements I
 	}
 
 	// Sync between server/client if configs are mis-matched.
-	public int getMaxCapacity() {
-		return this.tank.getCapacity().getRawValue();
+	public long getMaxCapacity() {
+		return this.tank.getFluidValueCapacity().getRawValue();
 	}
 
-	public void setMaxCapacity(int maxCapacity) {
+	public void setMaxCapacity(long maxCapacity) {
 		FluidInstance instance = tank.getFluidInstance();
 		this.tank = new Tank("TankStorage", FluidValue.fromRaw(maxCapacity), this);
 		this.tank.setFluidInstance(instance);
@@ -199,10 +199,5 @@ public class TankUnitBaseBlockEntity extends MachineBaseBlockEntity implements I
 	@Override
 	public Tank getTank() {
 		return tank;
-	}
-
-	@Deprecated
-	public void setTank(Tank tank) {
-		this.tank.setFluid(null, tank.getFluidInstance());
 	}
 }

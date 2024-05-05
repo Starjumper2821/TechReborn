@@ -29,6 +29,7 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.math.BlockPos;
+import org.jetbrains.annotations.Nullable;
 import reborncore.RebornCore;
 import reborncore.api.recipe.IRecipeCrafterProvider;
 import reborncore.common.blocks.BlockMachineBase;
@@ -39,7 +40,6 @@ import reborncore.common.powerSystem.PowerAcceptorBlockEntity;
 import reborncore.common.util.ItemUtils;
 import reborncore.common.util.RebornInventory;
 
-import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.Optional;
 

@@ -30,14 +30,13 @@ import net.minecraft.client.render.BufferBuilder;
 import net.minecraft.client.render.Tessellator;
 import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.item.ItemStack;
+import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import reborncore.common.util.ItemDurabilityExtensions;
-
-import org.jetbrains.annotations.Nullable;
 
 //Not too happy with this, need to find and get a better solution into fabric soon
 @Mixin(ItemRenderer.class)
