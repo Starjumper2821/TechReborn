@@ -29,9 +29,9 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.world.PersistentState;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.NotNull;
+import reborncore.common.util.NBTSerializable;
 import team.reborn.energy.api.EnergyStorage;
 import team.reborn.energy.api.base.SimpleEnergyStorage;
-import reborncore.common.util.NBTSerializable;
 import techreborn.config.TechRebornConfig;
 
 import java.util.HashMap;

@@ -217,8 +217,9 @@ task renameCrowdin(type: Copy, dependsOn: ['crowdin', 'cleanCrowdin']){
     }
 }
 
-import groovy.json.JsonSlurper
+
 import groovy.json.JsonOutput
+import groovy.json.JsonSlurper
 
 //Remove all translations that do not have an entry, ensures that minecraft falls back to EN_US over writing out an empty string.
 task fixTranslations(dependsOn: ['renameCrowdin']) {
@@ -234,11 +235,9 @@ task fixTranslations(dependsOn: ['renameCrowdin']) {
     }
 }
 
-import com.google.gson.JsonArray
-import groovy.util.XmlSlurper
-import org.apache.commons.io.FileUtils
 
-import java.util.function.Consumer
+import org.kohsuke.github.GHReleaseBuilder
+import org.kohsuke.github.GitHub
 
 curseforge {
     if (ENV.CURSEFORGE_API_KEY) {
@@ -276,9 +275,6 @@ def getBranch() {
 
     return "unknown"
 }
-
-import org.kohsuke.github.GHReleaseBuilder
-import org.kohsuke.github.GitHub
 
 task github(dependsOn: remapJar) {
     onlyIf {
