@@ -90,7 +90,6 @@ public class CableBlock extends BlockWithEntity implements Waterloggable {
 	});
 
 	public final TRContent.Cables type;
-	private final CableShapeUtil cableShapeUtil;
 
 	public CableBlock(TRContent.Cables type) {
 		super(Block.Settings.of(Material.STONE).strength(1f, 8f));
@@ -98,7 +97,6 @@ public class CableBlock extends BlockWithEntity implements Waterloggable {
 		setDefaultState(this.getStateManager().getDefaultState().with(EAST, false).with(WEST, false).with(NORTH, false)
 				.with(SOUTH, false).with(UP, false).with(DOWN, false).with(WATERLOGGED, false).with(COVERED, false));
 		BlockWrenchEventHandler.wrenableBlocks.add(this);
-		cableShapeUtil = new CableShapeUtil(this);
 	}
 
 	// BlockContainer
@@ -194,7 +192,7 @@ public class CableBlock extends BlockWithEntity implements Waterloggable {
 		if (state.get(COVERED)) {
 			return VoxelShapes.fullCube();
 		}
-		return cableShapeUtil.getShape(state);
+		return CableShapeUtil.getShape(state);
 	}
 
 	@SuppressWarnings("deprecation")
