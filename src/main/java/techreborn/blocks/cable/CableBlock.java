@@ -99,7 +99,7 @@ public class CableBlock extends BlockWithEntity implements Waterloggable {
 		BlockWrenchEventHandler.wrenableBlocks.add(this);
 	}
 
-	// BlockContainer
+	// BlockWithEntity
 	@Override
 	public BlockRenderType getRenderType(BlockState state) {
 		return BlockRenderType.MODEL;
