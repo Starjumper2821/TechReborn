@@ -21,15 +21,11 @@
     ],
     "rei_plugins_v0": [
       "techreborn.compat.rei.ReiPlugin"
-    ],
-	"autoswitch": [
-	  "techreborn.compat.autoswitch.AutoSwitchApiImpl"
-	]
+    ]
   },
   "depends": {
-    "fabricloader": ">=0.10.8",
-	"fabric": ">=0.28.3",
-    "reborncore": "*",
+    "fabricloader": ">=0.14.24",
+	"fabric": ">=0.42.0",
 	"team_reborn_energy": ">=1.0.0",
 	"fabric-biome-api-v1": ">=3.0.0"
   },
@@ -56,6 +52,7 @@
     "Ourten",
     "Dimmerworld",
     "coderbot",
-    "estebes"
+    "estebes",
+	"Starjumper2821"
   ]
 }

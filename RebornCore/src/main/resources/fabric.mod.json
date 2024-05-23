@@ -25,9 +25,9 @@
     "reborncore.common.mixins.json"
   ],
   "depends": {
-    "fabricloader": ">=0.6.3",
-    "fabric": ">=0.28.3",
-	"team_reborn_energy": ">=0.1.1",
+    "fabricloader": ">=0.14.24",
+    "fabric": ">=0.42.0",
+	"team_reborn_energy": ">=1.0.0",
 	"fabric-biome-api-v1": ">=3.0.0"
   },
   "authors": [
@@ -42,7 +42,8 @@
     "Dragon2488",
     "Ourten",
     "coderbot",
-    "estebes"
+    "estebes",
+	"Starjumper2821"
   ],
   "custom": {
     "modmenu:api": true
