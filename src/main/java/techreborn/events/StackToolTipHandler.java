@@ -27,6 +27,7 @@ package techreborn.events;
 import com.google.common.collect.Maps;
 import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
 import net.minecraft.block.Block;
+import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.item.TooltipContext;
@@ -34,7 +35,9 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
 import net.minecraft.util.registry.Registry;
+import reborncore.api.IListInfoProvider;
 import reborncore.common.BaseBlockEntityProvider;
+import techreborn.blocks.cable.CableBlock;
 import techreborn.init.TRContent;
 import techreborn.items.UpgradeItem;
 import techreborn.utils.ToolTipAssistUtils;
@@ -67,6 +70,13 @@ public class StackToolTipHandler implements ItemTooltipCallback {
 
 		if (block instanceof BaseBlockEntityProvider) {
 			ToolTipAssistUtils.addInfo(item.getTranslationKey(), tooltipLines);
+		}
+
+		if (block instanceof CableBlock cable) {
+			BlockEntity blockEntity = cable.createBlockEntity(null);
+			if (blockEntity != null) {
+				((IListInfoProvider) blockEntity).addInfo(tooltipLines, false, false);
+			}
 		}
 
 		if (item instanceof UpgradeItem) {
