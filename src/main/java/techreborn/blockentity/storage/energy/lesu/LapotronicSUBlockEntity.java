@@ -24,7 +24,6 @@
 
 package techreborn.blockentity.storage.energy.lesu;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.Direction;
@@ -33,7 +32,6 @@ import reborncore.client.screen.builder.BuiltScreenHandler;
 import reborncore.client.screen.builder.ScreenHandlerBuilder;
 import reborncore.common.powerSystem.RcEnergyTier;
 import techreborn.blockentity.storage.energy.EnergyStorageBlockEntity;
-import techreborn.blocks.storage.energy.LapotronicSUBlock;
 import techreborn.config.TechRebornConfig;
 import techreborn.init.TRBlockEntities;
 import techreborn.init.TRContent;
@@ -113,15 +111,6 @@ public class LapotronicSUBlockEntity extends EnergyStorageBlockEntity implements
 		}
 	}
 
-	@Override
-	public Direction getFacingEnum() {
-		Block block = world.getBlockState(pos).getBlock();
-		if (block instanceof LapotronicSUBlock) {
-			return ((LapotronicSUBlock) block).getFacing(world.getBlockState(pos));
-		}
-		return null;
-	}
-
 	// IContainerProvider
 	@Override
 	public BuiltScreenHandler createScreenHandler(int syncID, final PlayerEntity player) {
@@ -129,22 +118,6 @@ public class LapotronicSUBlockEntity extends EnergyStorageBlockEntity implements
 				.addArmor().addInventory().blockEntity(this).energySlot(0, 62, 45).energySlot(1, 98, 45).syncEnergyValue()
 				.sync(this::getConnectedBlocksNum, this::setConnectedBlocksNum).addInventory().create(this, syncID);
 	}
-
-//	public int getOutputRate() {
-//		return maxOutput;
-//	}
-//
-//	public void setOutputRate(int output) {
-//		this.maxOutput = output;
-//	}
-//
-//	public int getInputRate(){
-//		return maxInput;
-//	}
-//
-//	public void setInputRate(int input){
-//		this.maxInput = input;
-//	}
 
 	public int getConnectedBlocksNum() {
 		return connectedBlocks;
